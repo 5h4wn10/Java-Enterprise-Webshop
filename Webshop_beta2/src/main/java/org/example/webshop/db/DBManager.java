@@ -5,31 +5,23 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBManager {
+    private static String url = "jdbc:mysql://127.0.0.1:3306/webshop_db";
+    private static String user = "ShanSaifi";
+    private static String password = "Shan2003+TS";
 
-
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/webshop_db?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "ShanSaifi";
-    private static final String PASSWORD = "Shan2003+TS";
-
-    // Ladda JDBC-drivrutinen
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // Använd rätt JDBC-drivrutin för din MySQL-version
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    // Hämta en anslutning till databasen
-    public static Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, user, password);
     }
+
+
 
     // Stäng en databasanslutning
     public static void closeConnection(Connection connection) {

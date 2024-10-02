@@ -1,21 +1,41 @@
 <%@page import="org.example.webshop.bo.LookItems" %>
 <%@page import="java.util.Hashtable" %>
+<%@page import="java.util.Enumeration" %>
+
+<html>
+<head>
+    <title>Webshop Items</title>
+</head>
+<body>
+<h1>Available Items</h1>
+
 <%
-    String group = request.getParameter("itemGroup");
-    LookItems look = new LookItems();
-    Hashtable table = look.getItemsWithGroup(group);
-    int size = (int) table.get("size");
+    // Skapa ett LookItems-objekt och hämta alla produkter
+    LookItems lookItems = new LookItems();
+    Hashtable<String, Object> items = lookItems.getItems();
+
+    int size = (int) items.get("size");  // Hämta antal objekt i Hashtable
 %>
-<table>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Group</th> <!-- Lägg till kolumn för grupp -->
+    </tr>
+
     <%
-        for (int i = 0 ; i < size ; i++) {
-            Hashtable item = (Hashtable) table.get("Item" + i);
+        for (int i = 0; i < size; i++) {
+            Hashtable<String, Object> item = (Hashtable<String, Object>) items.get("Item" + i);
     %>
     <tr>
-        <td>Name:</td> <td><%= item.get("name") %></td>
-        <td>Price:</td> <td><%= item.get("price") %></td>
+        <td><%= item.get("name") %></td>
+        <td><%= item.get("price") %></td>
+        <td><%= item.get("group") %></td> <!-- Visa gruppen -->
     </tr>
     <%
         }
     %>
 </table>
+</body>
+</html>
