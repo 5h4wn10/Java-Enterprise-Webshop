@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8dfd34be-86e2-492c-a027-b8b9a947e51b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/ShoppingCartHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/UserHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/db/ShoppingCartDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/db/UserDB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/ui/ItemInfoDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/ui/LoginServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/ui/RegisterServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/ui/ShoppingCartDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/ui/ShoppingServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/ui/UserInfoDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/webapp/cart.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/webapp/checkout.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/webapp/login.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/webapp/register.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/.idea/artifacts/WAR_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/WEB-INF/classes/org/example/webshop/bo/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/WEB-INF/classes/org/example/webshop/bo/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/WEB-INF/classes/org/example/webshop/bo/LookItems.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/WEB-INF/classes/org/example/webshop/db/ItemDB.class" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/WEB-INF/classes/org/example/webshop/db/ItemDB.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/out/artifacts/WAR_exploded/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/LookItems.java" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/ItemHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/ShoppingCart.java" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/bo/ShoppingCart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/db/ItemDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/java/org/example/webshop/db/ItemDB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webshop_beta2/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/Webshop_beta2/src/main/webapp/index.jsp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="2n6cJ1sweVGJ1qND4jTxVQpWDjZ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Distribuerade informationsssytem/Laboration 1/webshopgit"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8dfd34be-86e2-492c-a027-b8b9a947e51b" name="Changes" comment="" />
+      <created>1728296890395</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1728296890395</updated>
+    </task>
+    <servers />
+  </component>
+</project>

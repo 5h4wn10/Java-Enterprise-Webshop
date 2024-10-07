@@ -1,17 +1,19 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" build-on-make="true" name="WAR-exploded">
+  <artifact type="exploded-war" name="WAR_exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/WAR_exploded</output-path>
     <root id="root">
-      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
-      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Webshop_beta2" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/index.jsp" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/checkout.jsp" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/cart.jsp" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/login.jsp" />
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/register.jsp" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
-          <element id="file-copy" path="$MAVEN_REPOSITORY$/com/mysql/mysql-connector-j/8.0.33/mysql-connector-j-8.0.33.jar" />
-          <element id="library" level="project" name="Maven: jakarta.servlet:jakarta.servlet-api:5.0.0" />
+          <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.33" />
         </element>
       </element>
     </root>
