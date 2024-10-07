@@ -1,9 +1,6 @@
 package org.example.webshop.bo;
 
-import org.example.webshop.db.ShoppingCartDB;
 import org.example.webshop.ui.ItemInfoDTO;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,19 +17,8 @@ public class ShoppingCart {
         return userId;
     }
 
-    // Ladda shoppingkorgen från databasen
-    public void loadFromDB() throws SQLException {
-        // Hämta data från ShoppingCartDB
-        ShoppingCart loadedCart = ShoppingCartDB.loadCart(userId);
-        this.items = loadedCart.getItems();  // Kopiera item-listan från den laddade korgen
-    }
-
-    // Spara shoppingkorgen till databasen
-    public void saveToDB() throws SQLException {
-        if (!items.isEmpty()) {  // Kolla om kundkorgen inte är tom
-            ShoppingCartDB.saveCart(userId, this);
-        }
-    }
+    // Ingen databasladdning eller sparning behövs längre
+    // Ta bort loadFromDB och saveToDB metoder
 
     // Lägg till ett objekt i korgen
     public void addItem(ItemInfoDTO item) {

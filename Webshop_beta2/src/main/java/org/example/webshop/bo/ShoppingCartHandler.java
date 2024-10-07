@@ -1,25 +1,20 @@
 package org.example.webshop.bo;
 
 import org.example.webshop.ui.ItemInfoDTO;
-import org.example.webshop.ui.ShoppingCartDTO;
-
-import java.sql.SQLException;
 import java.util.List;
 
 public class ShoppingCartHandler {
 
-    // Lägg till ett objekt i shoppingkorgen och spara till DB
-    public void addItemToCart(ShoppingCart cart, ItemInfoDTO item) throws SQLException {
+    // Lägg till ett objekt i shoppingkorgen (ingen databasuppdatering behövs)
+    public void addItemToCart(ShoppingCart cart, ItemInfoDTO item) {
         cart.addItem(item);
-        cart.saveToDB();  // Spara korgen till databasen efter uppdatering
+        // Ingen spara till databas här
     }
 
-
-
-    // Ta bort ett objekt från korgen och spara till DB
-    public void removeItemFromCart(ShoppingCart cart, ItemInfoDTO item) throws SQLException {
+    // Ta bort ett objekt från korgen (ingen databasuppdatering behövs)
+    public void removeItemFromCart(ShoppingCart cart, ItemInfoDTO item) {
         cart.removeItem(item);
-        cart.saveToDB();  // Spara korgen till databasen efter uppdatering
+        // Ingen spara till databas här
     }
 
     // Hämta alla objekt från shoppingkorgen
@@ -32,17 +27,15 @@ public class ShoppingCartHandler {
         return cart.getTotalPrice();
     }
 
-    // Ladda shoppingkorgen för en specifik användare
-    public ShoppingCart loadCart(int userId) throws SQLException {
-        ShoppingCart cart = new ShoppingCart(userId);
-        cart.loadFromDB();  // Ladda korgen från databasen
-        return cart;
+    // Ta bort funktionen för att ladda korgen från databasen
+    // Ingen databasladdning behövs
+    public ShoppingCart createCart(int userId) {
+        return new ShoppingCart(userId);  // Skapa en ny korg utan att ladda från databasen
     }
 
-    // Töm shoppingkorgen och radera från databasen
-    public void clearCart(ShoppingCart cart) throws SQLException {
-        cart.clear();  // Töm korgen först
-        cart.saveToDB();  // Spara den tömda korgen till databasen
+    // Töm shoppingkorgen (ingen databasuppdatering behövs)
+    public void clearCart(ShoppingCart cart) {
+        cart.clear();  // Töm korgen
+        // Ingen spara till databas här
     }
-
 }

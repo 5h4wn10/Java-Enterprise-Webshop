@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/shoppingServlet")
 public class ShoppingServlet extends HttpServlet {
@@ -48,11 +47,7 @@ public class ShoppingServlet extends HttpServlet {
         }
 
         // Använd ShoppingCartHandler för att lägga till varan i korgen
-        try {
-            cartHandler.addItemToCart(cart, item);  // Uppdatera BO-korgen
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        cartHandler.addItemToCart(cart, item);
 
         // Konvertera till ShoppingCartDTO för användning i UI (DTO-klass)
         ShoppingCartDTO cartDTO = new ShoppingCartDTO(user.getUserId(), cart.getItems());

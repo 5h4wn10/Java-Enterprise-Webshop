@@ -9,10 +9,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.annotation.WebServlet;
 import org.example.webshop.bo.UserHandler;
-import org.example.webshop.db.UserDB;
 
 import java.io.IOException;
 import java.sql.SQLException;
+
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
     private UserHandler userHandler = new UserHandler();
@@ -30,12 +30,11 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", userDTO);
 
-                // Skapa en kundkorg om det inte redan finns
+                // Skapa en ny tom kundkorg om det inte redan finns
                 ShoppingCart cart = (ShoppingCart) session.getAttribute(userDTO.getUsername() + "_cart");
                 if (cart == null) {
-                    cart = new ShoppingCart(user.getUserId());
-                    cart.loadFromDB();  // Ladda kundkorgen från databasen
-                    session.setAttribute(userDTO.getUsername() + "_cart", cart);  // Uppdatera sessionen med den laddade korgen
+                    cart = new ShoppingCart(user.getUserId());  // Skapa en ny, tom varukorg
+                    session.setAttribute(userDTO.getUsername() + "_cart", cart);  // Lägg till den nya varukorgen i sessionen
                 }
 
                 // Omdirigera till indexsidan
@@ -50,4 +49,3 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
-
