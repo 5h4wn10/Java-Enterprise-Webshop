@@ -70,13 +70,13 @@ public class ItemDB extends Item {
     }
 
 
-    // Metod för att hämta ett ItemInfoDTO baserat på item_id
-    public static ItemInfoDTO getItemInfoById(int itemId) throws SQLException {
+    // Metod för att hämta produkt från databasen baserat på itemId
+    public static Item getItemById(int itemId) throws SQLException {
         Connection con = DBManager.getConnection();
-        ItemInfoDTO item = null;
+        Item item = null;
 
         try {
-            String query = "SELECT item_id, name, description, price, item_group_id FROM item WHERE item_id = ?";
+            String query = "SELECT * FROM item WHERE item_id = ?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, itemId);
 
@@ -88,13 +88,28 @@ public class ItemDB extends Item {
                 String description = rs.getString("description");
                 int price = rs.getInt("price");
                 String group = rs.getString("item_group_id");
+                int stockQuantity = rs.getInt("stock_quantity");
 
-                item = new ItemInfoDTO(id, name, description, price, group);
+                // Skapa ett OrderItem med korrekt lagersaldo
+                item = createItem(id,name,description,price,group,stockQuantity);
             }
+
         } finally {
-            con.close();
+            DBManager.closeConnection(con);
         }
 
         return item;
+    }
+
+    // Uppdatera lagersaldo för en specifik produkt
+    public static void updateStockQuantity(int itemId, int quantity) throws SQLException {
+        Connection con = DBManager.getConnection();
+        String query = "UPDATE item SET stock_quantity = stock_quantity - ? WHERE item_id = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, quantity);
+        ps.setInt(2, itemId);
+        ps.executeUpdate();
+        ps.close();
+        con.close();
     }
 }

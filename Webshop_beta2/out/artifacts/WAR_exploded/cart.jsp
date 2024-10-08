@@ -1,9 +1,10 @@
-<%@page import="org.example.webshop.bo.ShoppingCart"%>
-<%@page import="org.example.webshop.bo.Item"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="org.example.webshop.bo.OrderItem"%>
+<%@page import="org.example.webshop.ui.OrderItemDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="org.example.webshop.ui.ItemInfoDTO"%>
+<%@page import="org.example.webshop.ui.ShoppingCartDTO"%>
+<%@page import="java.util.Map"%>
 <%@page import="org.example.webshop.ui.UserInfoDTO"%>
-
 <html>
 <head>
     <title>Your Shopping Cart</title>
@@ -79,13 +80,12 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <h1>Your Shopping Cart</h1>
 
     <%
         UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
-        ShoppingCart cart = (ShoppingCart) session.getAttribute(user.getUsername() + "_cart");
+        ShoppingCartDTO cart = (ShoppingCartDTO) session.getAttribute(user.getUsername() + "_cart");
 
         if (cart == null || cart.getItems().isEmpty()) {
     %>
@@ -93,37 +93,51 @@
     <a class="button" href="index.jsp">Continue Shopping</a>
     <%
     } else {
-        List<ItemInfoDTO> items = cart.getItems();
+        Map<String, OrderItemDTO> groupedItems = new HashMap<>();
+
+        // Gruppera varorna i kundvagnen efter namn och uppdatera kvantiteten
+        for (OrderItemDTO item : cart.getItems()) {
+            if (groupedItems.containsKey(item.getName())) {
+                OrderItemDTO existingItem = groupedItems.get(item.getName());
+                existingItem.setOrderedQuantity(existingItem.getOrderedQuantity() + item.getOrderedQuantity());
+            } else {
+                groupedItems.put(item.getName(), item);
+            }
+        }
     %>
     <table>
         <tr>
             <th>Name</th>
             <th>Price</th>
             <th>Group</th>
+            <th>Quantity</th>
         </tr>
 
         <%
-            for (ItemInfoDTO item : items) {
+            for (OrderItemDTO item : groupedItems.values()) {
         %>
         <tr>
             <td><%= item.getName() %></td>
             <td><%= item.getPrice() %></td>
             <td><%= item.getGroup() %></td>
+            <td><%= item.getOrderedQuantity() %></td>
         </tr>
         <%
             }
         %>
     </table>
 
-    <p>Total Items: <%= items.size() %></p>
+    <p>Total Items: <%= groupedItems.size() %></p>
     <p>Total Price: <%= cart.getTotalPrice() %></p>
 
     <a class="button" href="index.jsp">Continue Shopping</a>
-    <a class="button" href="checkout.jsp">Proceed to Checkout</a>
+    <form action="checkoutServlet" method="get">
+        <input type="submit" value="Proceed to Checkout">
+    </form>
+
     <%
         }
     %>
 </div>
-
 </body>
 </html>

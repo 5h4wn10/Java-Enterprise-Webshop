@@ -6,11 +6,20 @@ public class UserInfoDTO {
     private int userId;       // Nytt fält för userId
     private String username;
 
+    private String email;
+
     public UserInfoDTO(String username) {
         this.username = username;
     }
+
     // Konstruktor med userId
     public UserInfoDTO(int userId, String username, String email) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+    }
+
+    public UserInfoDTO(int userId, String username) {
         this.userId = userId;
         this.username = username;
     }

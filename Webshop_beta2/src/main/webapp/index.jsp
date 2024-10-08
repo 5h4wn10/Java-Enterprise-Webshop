@@ -12,6 +12,9 @@
         response.sendRedirect("login.jsp");
         return;
     }
+
+    // Hämta alla produkter från ItemHandler
+    List<ItemInfoDTO> items = ItemHandler.getAllItems(); // Antag att du har en ItemHandler med getAllItems()
 %>
 <html>
 <head>
@@ -92,7 +95,12 @@
             transition: background-color 0.3s;
         }
 
-        .add-to-cart:hover {
+        .add-to-cart:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .add-to-cart:hover:enabled {
             background-color: #218838;
         }
 
@@ -133,17 +141,13 @@
 <div class="container">
     <h1>Available Items</h1>
 
-    <%
-        // Skapa ett ItemHandler-objekt och hämta alla produkter
-        List<ItemInfoDTO> items = ItemHandler.getAllItems(); // Ange den grupp du vill visa
-    %>
-
     <table>
         <tr>
             <th>Name</th>
             <th>Price</th>
             <th>Item Description</th>
             <th>Group</th>
+            <th>Stock</th>
             <th>Add to Cart</th>
         </tr>
 
@@ -156,6 +160,10 @@
             <td><%= item.getDescription() %></td>
             <td><%= item.getGroup() %></td>
             <td>
+                <!-- Visa om produkten finns i lager eller inte -->
+                <%= item.getStock_quantity() > 0 ? item.getStock_quantity() + " in stock" : "Out of stock" %>
+            </td>
+            <td>
                 <!-- Formulär för att lägga till item i kundkorgen -->
                 <form action="shoppingServlet" method="post">
                     <input type="hidden" name="itemId" value="<%= item.getId() %>">
@@ -163,7 +171,7 @@
                     <input type="hidden" name="itemDescription" value="<%= item.getDescription() %>">
                     <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
                     <input type="hidden" name="itemGroup" value="<%= item.getGroup() %>">
-                    <input class="add-to-cart" type="submit" value="Add to Cart">
+                    <button class="add-to-cart" type="submit" <%= item.getStock_quantity() <= 0 ? "disabled" : "" %>>Add to Cart</button>
                 </form>
             </td>
         </tr>

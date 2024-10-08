@@ -1,38 +1,30 @@
 package org.example.webshop.ui;
 
-public class ItemInfoDTO {
-    private int id;
+public class OrderItemDTO {
+    private int itemId;
     private String name;
     private String description;
     private int price;
     private String group;
-    private int stock_quantity;
+    private int orderedQuantity;
 
-    // Konstruktor för ItemInfo
-    public ItemInfoDTO(int id, String name, String description, int price, String group) {
-        this.id = id;
+    // Constructor
+    public OrderItemDTO(int itemId, String name, String description, int price, String group, int orderedQuantity) {
+        this.itemId = itemId;
         this.name = name;
         this.description = description;
         this.price = price;
         this.group = group;
+        this.orderedQuantity = orderedQuantity;
     }
 
-    public ItemInfoDTO(int id, String name, String description, int price, String group, int stock_quantity) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.group = group;
-        this.stock_quantity = stock_quantity;
+    // Getters and Setters
+    public int getItemId() {
+        return itemId;
     }
 
-    // Getter och Setter metoder
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public String getName() {
@@ -59,19 +51,24 @@ public class ItemInfoDTO {
         this.price = price;
     }
 
-    public int getStock_quantity() {
-        return stock_quantity;
-    }
-
-    public void setStock_quantity(int stock_quantity) {
-        this.stock_quantity = stock_quantity;
-    }
-
     public String getGroup() {
         return group;
     }
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public int getOrderedQuantity() {
+        return orderedQuantity;
+    }
+
+    public void setOrderedQuantity(int orderedQuantity) {
+        this.orderedQuantity = orderedQuantity;
+    }
+
+    // Method to calculate total price for the order item
+    public int calculateTotalPrice() {
+        return price * orderedQuantity;
     }
 }

@@ -79,7 +79,7 @@
 <body>
 
 <div class="container">
-    <h1>Login</h1>
+    <h1>LoginNeger</h1>
 
     <%
         String errorMessage = (String) request.getAttribute("errorMessage");
@@ -89,7 +89,7 @@
     <%
         }
     %>
-
+<!--
     <form action="loginServlet" method="post">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -100,7 +100,18 @@
         <input type="submit" value="Login">
 
         <p>Don't have an account? <a href="register.jsp">Create Account</a></p>
+    </form>-->
+
+    <form action="loginServlet" method="post">
+        <label for="username">USERNAME:</label>
+        <input type="text" id="username" name="username" value="shan saifi" required><br><br> <!-- Autofyll med användarnamn -->
+
+        <label for="password">DAGDGSG:</label>
+        <input type="password" id="password" name="password" value="shan123" required><br><br> <!-- Autofyll med lösenord -->
+
+        <input type="submit" value="Login">
     </form>
+
 </div>
 
 </body>

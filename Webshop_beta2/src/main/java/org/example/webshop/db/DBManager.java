@@ -17,11 +17,26 @@ public class DBManager {
         }
     }
 
+    // Öppna en databasanslutning och ställ in auto-commit till false för att hantera transaktioner manuellt
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        Connection con = DriverManager.getConnection(url, user, password);
+        con.setAutoCommit(false);  // Ställ in auto-commit till false för manuell hantering
+        return con;
     }
 
+    // Begå en transaktion
+    public static void commitTransaction(Connection con) throws SQLException {
+        if (con != null) {
+            con.commit();  // Genomför alla förändringar i databasen
+        }
+    }
 
+    // Gör rollback på en transaktion vid fel
+    public static void rollbackTransaction(Connection con) throws SQLException {
+        if (con != null) {
+            con.rollback();  // Återställ alla förändringar som gjorts under transaktionen
+        }
+    }
 
     // Stäng en databasanslutning
     public static void closeConnection(Connection connection) {

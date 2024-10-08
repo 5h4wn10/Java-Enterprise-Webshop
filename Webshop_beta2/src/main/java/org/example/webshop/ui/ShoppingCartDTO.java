@@ -1,67 +1,81 @@
 package org.example.webshop.ui;
 
+import org.example.webshop.bo.OrderItem;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCartDTO {
-    private int userId;  // Koppla kundkorgen till en specifik användare
-    private List<ItemInfoDTO> items;
+    private List<OrderItemDTO> items;
     private int totalPrice;
+    private int userId;
 
-    // Konstruktorer
+    // Konstruktor med en lista av OrderItem, konverterar OrderItem till OrderItemDTO
+    public ShoppingCartDTO(int userId, List<OrderItem> orderItems) {
+        this.userId = userId;
+        this.items = convertToOrderItemDTO(orderItems);
+        this.totalPrice = calculateTotalPrice(orderItems);
+    }
+
     public ShoppingCartDTO(int userId) {
         this.userId = userId;
         this.items = new ArrayList<>();
-        this.totalPrice = 0;  // Initialisera totalpriset
+        this.totalPrice = 0;
     }
 
-    public ShoppingCartDTO(int userId, List<ItemInfoDTO> items) {
-        this.userId = userId;
-        this.items = items;
-        this.totalPrice = calculateTotalPrice();  // Beräkna totalpriset vid konstruktion
+    // Metod för att konvertera OrderItem till OrderItemDTO
+    private List<OrderItemDTO> convertToOrderItemDTO(List<OrderItem> orderItems) {
+        List<OrderItemDTO> itemDTOs = new ArrayList<>();
+        for (OrderItem orderItem : orderItems) {
+            OrderItemDTO dto = new OrderItemDTO(
+                    orderItem.getId(),
+                    orderItem.getName(),
+                    orderItem.getDescription(),
+                    orderItem.getPrice(),
+                    orderItem.getGroup(),
+                    orderItem.getOrderedQuantity()
+            );
+            itemDTOs.add(dto);
+        }
+        return itemDTOs;
     }
 
-    // Getter och setter för userId
-    public int getUserId() {
-        return userId;
-    }
-
-
-
-    // Lägg till ett objekt i korgen och uppdatera totalpriset
-    public void addItem(ItemInfoDTO item) {
-        items.add(item);
-        totalPrice += item.getPrice();  // Uppdatera totalpriset
-    }
-
-    // Ta bort ett objekt från korgen och uppdatera totalpriset
-    public void removeItem(ItemInfoDTO item) {
-        items.remove(item);
-        totalPrice -= item.getPrice();  // Uppdatera totalpriset
-    }
-
-    // Beräkna totalpriset för alla objekt i kundkorgen
-    private int calculateTotalPrice() {
+    // Beräkna det totala priset för OrderItems
+    private int calculateTotalPrice(List<OrderItem> orderItems) {
         int total = 0;
-        for (ItemInfoDTO item : items) {
-            total += item.getPrice();
+        for (OrderItem item : orderItems) {
+            total += item.calculateTotalPrice();
         }
         return total;
     }
 
-    // Getter för items
-    public List<ItemInfoDTO> getItems() {
+    // Getters och setters
+    public List<OrderItemDTO> getItems() {
         return items;
     }
 
-    // Getter för totalPrice
+    public void setItems(List<OrderItemDTO> items) {
+        this.items = items;
+    }
+
     public int getTotalPrice() {
         return totalPrice;
     }
 
-    // Töm kundkorgen och nollställ totalpriset
-    public void clear() {
-        items.clear();
-        totalPrice = 0;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void addItem(OrderItemDTO item) {
+        this.items.add(item);
+        this.totalPrice += item.getPrice() * item.getOrderedQuantity(); // Uppdatera totalpris
+    }
+
 }

@@ -44,4 +44,10 @@ public class ItemHandler {
 
         return itemList;  // Returnerar hela listan
     }
+
+    // Metod för att hämta produkt baserat på itemId genom Item-klassen
+    public Item getItemById(int itemId) throws SQLException {
+        // Använd Item-klassen för att hämta produktdata
+        return Item.getItemById(itemId);
+    }
 }

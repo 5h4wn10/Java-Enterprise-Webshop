@@ -2,6 +2,7 @@ package org.example.webshop.ui;
 
 import jakarta.servlet.annotation.WebServlet;
 import org.example.webshop.bo.UserHandler;
+import org.example.webshop.ui.UserInfoDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,8 +23,12 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            // Använd UserHandler för att registrera användaren
+            // Använd UserHandler (BO) för att registrera användaren
             userHandler.registerUser(username, email, password);
+
+            // När användaren är registrerad, skapa ett UserInfoDTO och sätt i sessionen för att skicka till UI
+            UserInfoDTO userDTO = new UserInfoDTO(username);  // Endast användarnamnet för DTO
+            request.getSession().setAttribute("user", userDTO);
 
             // Omdirigera till login-sidan efter framgångsrik registrering
             response.sendRedirect("login.jsp");

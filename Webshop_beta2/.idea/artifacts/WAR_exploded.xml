@@ -5,17 +5,18 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Webshop_beta2" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/index.jsp" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/checkout.jsp" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/cart.jsp" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/login.jsp" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/register.jsp" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.21.9" />
           <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.33" />
         </element>
       </element>
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/index.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/cart.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/checkout.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/register.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/orderConfirmation.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/login.jsp" />
     </root>
   </artifact>
 </component>
