@@ -78,4 +78,7 @@ public class ShoppingCartDTO {
         this.totalPrice += item.getPrice() * item.getOrderedQuantity(); // Uppdatera totalpris
     }
 
+    public void clear() {
+        items.clear();
+    }
 }

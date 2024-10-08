@@ -4,6 +4,7 @@
 <%@ page import="org.example.webshop.ui.UserInfoDTO" %>
 <%@ page import="org.example.webshop.ui.OrderItemDTO" %>
 <%@ page import="org.example.webshop.bo.OrderItem" %>
+<%@ page import="org.example.webshop.ui.ShoppingCartDTO" %>
 
 <html>
 <head>
@@ -87,18 +88,18 @@
     <%
         // Hämta användaren och kundvagnen från sessionen
         UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
-        ShoppingCart cart = (ShoppingCart) session.getAttribute(user.getUsername() + "_cart");
+        ShoppingCartDTO cartDTO = (ShoppingCartDTO) session.getAttribute(user.getUsername() + "_cart");
 
-        // Kontrollera om kundvagnen är tom
-        if (cart == null || cart.getItems().isEmpty()) {
+// Kontrollera om kundvagnen är tom
+        if (cartDTO == null || cartDTO.getItems().isEmpty()) {
     %>
     <p>Your cart is empty.</p>
     <a href="index.jsp" class="btn btn-secondary">Continue Shopping</a>
     <%
     } else {
         // Hämta alla varor från kundvagnen
-        List<OrderItem> cartItems = cart.getItems();
-        int totalPrice = cart.getTotalPrice();  // Beräkna totalpris
+        List<OrderItemDTO> cartItems = cartDTO.getItems();
+        int totalPrice = cartDTO.getTotalPrice();  // Beräkna totalpris
     %>
 
     <table>
@@ -110,14 +111,14 @@
         </tr>
 
         <%
-            for (OrderItem item : cartItems) {
-                int itemTotalPrice = item.getPrice();  // Enkelt antagande att kvantitet alltid är 1
+            for (OrderItemDTO item : cartItems) {
+                int itemTotalPrice = item.calculateTotalPrice();  // Använd korrekt metod för att räkna ut totalpriset
         %>
         <tr>
             <td><%= item.getName() %></td>
-            <td>$<%= item.getPrice() %></td>
-            <td>1</td> <!-- Du kan justera för kvantitet här om du hanterar fler än 1 -->
-            <td>$<%= itemTotalPrice %></td>
+            <td><%= item.getPrice() %> SEK</td>
+            <td><%= item.getOrderedQuantity() %></td> <!-- Här visas korrekt kvantitet -->
+            <td><%= itemTotalPrice %> SEK</td>
         </tr>
         <%
             }
@@ -125,18 +126,19 @@
 
         <tr>
             <td colspan="3" class="total-price">Total Price</td>
-            <td class="total-price">$<%= totalPrice %></td>
+            <td class="total-price"><%= totalPrice %> SEK</td>
         </tr>
     </table>
 
     <!-- Formulär för att bekräfta utcheckning -->
     <form action="checkoutServlet" method="post">
-        <button type="submit" class="btn btn-primary">Confirm Checkout</button>
         <a href="cart.jsp" class="btn btn-secondary">Go Back to Cart</a>
+        <button type="submit" class="btn btn-primary">Confirm Checkout</button>
     </form>
     <%
         }
     %>
+
 </div>
 
 </body>

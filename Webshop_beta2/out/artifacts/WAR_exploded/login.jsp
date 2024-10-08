@@ -79,7 +79,7 @@
 <body>
 
 <div class="container">
-    <h1>LoginNeger</h1>
+    <h1>Login</h1>
 
     <%
         String errorMessage = (String) request.getAttribute("errorMessage");
@@ -106,7 +106,7 @@
         <label for="username">USERNAME:</label>
         <input type="text" id="username" name="username" value="shan saifi" required><br><br> <!-- Autofyll med användarnamn -->
 
-        <label for="password">DAGDGSG:</label>
+        <label for="password">PASSWORD:</label>
         <input type="password" id="password" name="password" value="shan123" required><br><br> <!-- Autofyll med lösenord -->
 
         <input type="submit" value="Login">

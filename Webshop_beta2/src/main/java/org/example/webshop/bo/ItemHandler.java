@@ -39,7 +39,7 @@ public class ItemHandler {
 
         // Loopa igenom och lägg till varje objekt i listan som ItemInfoDTO
         for (Item item : items) {
-            itemList.add(new ItemInfoDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice(), item.getGroup()));
+            itemList.add(new ItemInfoDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice(), item.getGroup(), item.getStock_quantity()));
         }
 
         return itemList;  // Returnerar hela listan

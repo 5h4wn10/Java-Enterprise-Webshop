@@ -1,7 +1,10 @@
 package org.example.webshop.bo;
 
+import org.example.webshop.db.DBManager;
 import org.example.webshop.db.OrderDB;
 import org.example.webshop.db.ItemDB;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,15 +74,42 @@ public class Order {
         return total;
     }
 
-    // Save order to database
+    // Metod för att spara en order och uppdatera lagersaldot
     public void saveOrder() throws SQLException {
-        OrderDB.saveOrder(this);
+        Connection con = null;
+        try {
+            // Hämta en databaskoppling och starta en transaktion
+            con = DBManager.getConnection();
+            con.setAutoCommit(false); // Stäng av autocommit för att hantera transaktionen manuellt
+
+            // Spara ordern och uppdatera lagersaldot i en transaktion
+            OrderDB.saveOrder(this, con);
+
+            // Uppdatera lagersaldo för varje objekt i ordern
+            updateStockAfterOrder(con);
+
+            // Om allt går bra, commit transaktionen
+            con.commit();
+        } catch (SQLException e) {
+            // Om något går fel, rulla tillbaka transaktionen
+            if (con != null) {
+                con.rollback();
+            }
+            throw e; // Vidarebefordra undantaget
+        } finally {
+            if (con != null) {
+                con.setAutoCommit(true); // Återställ autocommit
+                con.close();
+            }
+        }
     }
 
+
     // Update stock after order completion
-    public void updateStockAfterOrder() throws SQLException {
+    public void updateStockAfterOrder(Connection con) throws SQLException {
         for (OrderItem item : items) {
-            ItemDB.updateStockQuantity(item.getId(), item.getOrderedQuantity());
+            // Uppdatera lagersaldot för varje produkt i ordern med hjälp av Connection-objektet
+            ItemDB.updateStockQuantity(item.getId(), item.getOrderedQuantity(), con);
         }
     }
 

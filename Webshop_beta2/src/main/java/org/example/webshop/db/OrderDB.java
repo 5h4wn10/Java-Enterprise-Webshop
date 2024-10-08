@@ -5,16 +5,15 @@ import org.example.webshop.bo.OrderItem;
 
 import java.sql.*;
 
-public class OrderDB {
+    public class OrderDB {
 
-    // Save order to the database
-    public static void saveOrder(Order order) throws SQLException {
-        Connection con = DBManager.getConnection();
-        try {
-            String query = "INSERT INTO orders (user_id, total_price) VALUES (?, ?)";
+        // Metod för att spara en order i databasen
+        public static void saveOrder(Order order, Connection con) throws SQLException {
+            String query = "INSERT INTO orders (user_id, total_price) VALUES (?, ?)"; // Se till att kolumnen 'total_price' finns
             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, order.getUserId());
-            ps.setInt(2, order.getTotalPrice());
+            ps.setInt(2, order.getTotalPrice()); // Kontrollera att du faktiskt vill lagra totalpriset
+
             ps.executeUpdate();
 
             // Get generated order ID
@@ -28,22 +27,22 @@ public class OrderDB {
                 saveOrderItem(con, order.getOrderId(), item);
             }
 
-        } finally {
-            DBManager.closeConnection(con);
+            ps.close();
         }
-    }
 
-    // Save an individual OrderItem to the database
-    private static void saveOrderItem(Connection con, int orderId, OrderItem item) throws SQLException {
-        String query = "INSERT INTO order_items (order_id, item_id, quantity, price) VALUES (?, ?, ?, ?)";
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, orderId);
-        ps.setInt(2, item.getId());
-        ps.setInt(3, item.getOrderedQuantity());
-        ps.setInt(4, item.getPrice());
-        ps.executeUpdate();
-        ps.close();
-    }
+        // Spara ett enskilt OrderItem i order_items-tabellen
+        private static void saveOrderItem(Connection con, int orderId, OrderItem item) throws SQLException {
+            String query = "INSERT INTO order_items (order_id, item_id, quantity, price) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, orderId);
+            ps.setInt(2, item.getId());
+            ps.setInt(3, item.getOrderedQuantity());
+            ps.setInt(4, item.getPrice());
+            ps.executeUpdate();
+            ps.close();
+        }
+
+
 
     // Retrieve an order from the database by ID
     public static Order getOrderById(int orderId) throws SQLException {

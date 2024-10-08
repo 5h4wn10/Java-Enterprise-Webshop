@@ -1,13 +1,10 @@
+
 package org.example.webshop.ui;
 
 import org.example.webshop.bo.Order;
 import org.example.webshop.bo.OrderHandler;
 import org.example.webshop.bo.OrderItem;
 import org.example.webshop.bo.ShoppingCart;
-import org.example.webshop.ui.OrderDTO;
-import org.example.webshop.ui.OrderItemDTO;
-import org.example.webshop.ui.UserInfoDTO;
-import org.example.webshop.ui.ItemInfoDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,8 +12,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.example.webshop.db.DBManager;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,37 +71,47 @@ public class CheckoutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
 
-        // Kontrollera om användaren är inloggad
+        // Check if the user is logged in
         if (user == null) {
             response.sendRedirect("login.jsp");
             return;
         }
 
-        // Hämta kundvagnen från sessionen
-        ShoppingCart cart = (ShoppingCart) session.getAttribute(user.getUsername() + "_cart");
+        // Retrieve the cart from the session
+        ShoppingCartDTO cartDTO = (ShoppingCartDTO) session.getAttribute(user.getUsername() + "_cart");
 
-        // Kontrollera om kundvagnen är tom
-        if (cart == null || cart.getItems().isEmpty()) {
+        // Check if the cart is empty
+        if (cartDTO == null || cartDTO.getItems().isEmpty()) {
             request.setAttribute("errorMessage", "Your cart is empty. Please add items before checking out.");
             request.getRequestDispatcher("cart.jsp").forward(request, response);
             return;
         }
 
-        // Konvertera kundvagnens varor till OrderItems för att skapa en ny order
+        // Create Order object and add items from the cart
         List<OrderItem> orderItems = new ArrayList<>();
-        for (OrderItem item : cart.getItems()) {
-            orderItems.add(item);
+        for (OrderItemDTO itemDTO : cartDTO.getItems()) {
+            orderItems.add(new OrderItem(
+                    itemDTO.getItemId(),
+                    itemDTO.getName(),
+                    itemDTO.getDescription(),
+                    itemDTO.getPrice(),
+                    itemDTO.getGroup(),
+                    itemDTO.getOrderedQuantity()
+            ));
         }
 
+        Order order = new Order(user.getUserId(), orderItems);
+
         try {
-            Order order = new Order(user.getUserId(), orderItems);
+            OrderHandler orderHandler = new OrderHandler();
+            // Create the order and save it to the database
             orderHandler.createOrder(user.getUserId(), order);
 
-            // Töm kundvagnen efter beställning
-            cart.clear();
-            session.setAttribute(user.getUsername() + "_cart", cart);
+            // Clear or remove the cart from the session after the order has been placed
+            session.removeAttribute(user.getUsername() + "_cart");   // Remove the frontend cart
+            session.removeAttribute(user.getUsername() + "_cart_bo"); // Remove the backend cart (BO class)
 
-            // Konvertera ordern till OrderDTO
+            // After the order has been processed, pass data to the JSP
             List<OrderItemDTO> orderItemsDTO = new ArrayList<>();
             for (OrderItem item : order.getItems()) {
                 OrderItemDTO orderItemDTO = new OrderItemDTO(
@@ -116,11 +125,11 @@ public class CheckoutServlet extends HttpServlet {
                 orderItemsDTO.add(orderItemDTO);
             }
 
-            // Skapa en OrderDTO för att skicka till JSP
-            OrderDTO orderDTO = new OrderDTO(order.getOrderId(), user.getUserId(), orderItemsDTO, order.getTotalPrice());
+            // Pass the orderItems list as an attribute to the JSP
+            request.setAttribute("orderItems", orderItemsDTO);  // Send the list of OrderItemDTO to the JSP
+            request.setAttribute("totalPrice", order.getTotalPrice());  // Send total price to the JSP
 
-            // Skicka OrderDTO till orderConfirmation.jsp
-            request.setAttribute("orderDTO", orderDTO);
+            // Forward to order confirmation page
             request.getRequestDispatcher("orderConfirmation.jsp").forward(request, response);
 
         } catch (SQLException e) {

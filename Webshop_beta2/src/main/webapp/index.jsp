@@ -156,23 +156,24 @@
         %>
         <tr>
             <td><%= item.getName() %></td>
-            <td><%= item.getPrice() %></td>
+            <td><%= item.getPrice() %> SEK</td>
             <td><%= item.getDescription() %></td>
             <td><%= item.getGroup() %></td>
             <td>
                 <!-- Visa om produkten finns i lager eller inte -->
-                <%= item.getStock_quantity() > 0 ? item.getStock_quantity() + " in stock" : "Out of stock" %>
+                <%= item.getStock_quantity() > 0 ? " in stock" : "Out of stock" %>
             </td>
             <td>
                 <!-- Formulär för att lägga till item i kundkorgen -->
                 <form action="shoppingServlet" method="post">
                     <input type="hidden" name="itemId" value="<%= item.getId() %>">
                     <input type="hidden" name="itemName" value="<%= item.getName() %>">
-                    <input type="hidden" name="itemDescription" value="<%= item.getDescription() %>">
                     <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
                     <input type="hidden" name="itemGroup" value="<%= item.getGroup() %>">
+                    <input type="number" name="quantity" value="1" min="1" max="<%= item.getStock_quantity() %>">
                     <button class="add-to-cart" type="submit" <%= item.getStock_quantity() <= 0 ? "disabled" : "" %>>Add to Cart</button>
                 </form>
+
             </td>
         </tr>
         <%
@@ -184,9 +185,6 @@
     <a class="view-cart" href="cart.jsp">View Cart</a>
 </div>
 
-<div class="footer">
-    <p>&copy; 2024 Webshop. All Rights Reserved.</p>
-</div>
 
 </body>
 </html>

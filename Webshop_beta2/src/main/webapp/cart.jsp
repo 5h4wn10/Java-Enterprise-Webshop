@@ -68,8 +68,23 @@
             text-decoration: none;
         }
 
+        .button-sec {
+            background-color: #51c729;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
         .button:hover {
             background-color: #0056b3;
+        }
+
+        .button-sec:hover {
+            background-color: #2c591e;
+
         }
 
         .footer {
@@ -118,7 +133,7 @@
         %>
         <tr>
             <td><%= item.getName() %></td>
-            <td><%= item.getPrice() %></td>
+            <td><%= item.getPrice() %> SEK</td>
             <td><%= item.getGroup() %></td>
             <td><%= item.getOrderedQuantity() %></td>
         </tr>
@@ -128,12 +143,13 @@
     </table>
 
     <p>Total Items: <%= groupedItems.size() %></p>
-    <p>Total Price: <%= cart.getTotalPrice() %></p>
+    <p>Total Price: <%= cart.getTotalPrice() %> SEK</p>
 
-    <a class="button" href="index.jsp">Continue Shopping</a>
-    <form action="checkoutServlet" method="get">
+    <a class="button" href="index.jsp">Continue Shopping</a>  <a class="button-sec" href="checkout.jsp">Proceed to Checkout</a>
+
+    <!--<form action="checkoutServlet" method="get">
         <input type="submit" value="Proceed to Checkout">
-    </form>
+    </form>-->
 
     <%
         }

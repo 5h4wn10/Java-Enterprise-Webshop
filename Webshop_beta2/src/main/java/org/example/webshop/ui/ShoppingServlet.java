@@ -23,53 +23,61 @@ public class ShoppingServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Hämta parametrarna från formuläret
         String itemId = request.getParameter("itemId");
+        int quantityRequested = Integer.parseInt(request.getParameter("quantity")); // Anta att du skickar antalet som användaren vill köpa
         String itemName = request.getParameter("itemName");
         String itemPrice = request.getParameter("itemPrice");
         String itemGroup = request.getParameter("itemGroup");
 
-        // Använd fabriksmönstret för att skapa ett BO Item-objekt baserat på parametrarna
-        Item item = Item.createItem(
-                Integer.parseInt(itemId),
-                itemName,
-                "", // description om det behövs
-                Integer.parseInt(itemPrice),
-                itemGroup,
-                0 // stockQuantity, kan sättas till 0 eller en korrekt värde
-        );
+        try {
+            // Hämta produkten från databasen
+            Item item = Item.getItemById(Integer.parseInt(itemId));
 
-        // Konvertera Item till OrderItem innan den läggs till i kundvagnen
-        OrderItem orderItem = new OrderItem(
-                item.getId(),
-                item.getName(),
-                item.getDescription(),
-                item.getPrice(),
-                item.getGroup(),
-                item.getStock_quantity(),
-                1 // Förutsätter att kvantiteten är 1. Ändra detta om du har stöd för olika kvantiteter.
-        );
+            // Kontrollera lagersaldot
+            if (item.getStock_quantity() < quantityRequested) {
+                // Om lagret är mindre än det begärda, skicka ett felmeddelande
+                request.setAttribute("errorMessage", "Sorry, only " + item.getStock_quantity() + " of " + itemName + " available.");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+                return;
+            }
 
-        // Hämta session och användarens unika kundvagn (BO-klassen)
-        HttpSession session = request.getSession();
-        UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
+            // Om det finns tillräckligt i lager, lägg till produkten i kundvagnen
+            OrderItem orderItem = new OrderItem(
+                    item.getId(),
+                    item.getName(),
+                    item.getDescription(),
+                    item.getPrice(),
+                    item.getGroup(),
+                    item.getStock_quantity(),
+                    quantityRequested // Lägg till den begärda kvantiteten
+            );
 
-        // Kolla om en ShoppingCart (BO-klassen) redan finns i sessionen
-        ShoppingCart cart = (ShoppingCart) session.getAttribute(user.getUsername() + "_cart_bo");
+            // Hämta session och användarens kundvagn (ShoppingCart BO-klassen)
+            HttpSession session = request.getSession();
+            UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
 
-        // Om ingen BO-klass finns, skapa en ny
-        if (cart == null) {
-            cart = new ShoppingCart(user.getUserId());
+            // Retrieve the backend cart
+            ShoppingCart cart = (ShoppingCart) session.getAttribute(user.getUsername() + "_cart_bo");
+
+            // If no cart exists, initialize a new one
+            if (cart == null) {
+                cart = new ShoppingCart(user.getUserId());
+            }
+
+            // Add the order item to the cart
+            cart.addItem(orderItem);
+
+            // Update the session attributes with the new cart
+            ShoppingCartDTO cartDTO = new ShoppingCartDTO(user.getUserId(), cart.getItems());
+            session.setAttribute(user.getUsername() + "_cart_bo", cart);  // Save BO class for backend operations
+            session.setAttribute(user.getUsername() + "_cart", cartDTO);  // Save DTO class for frontend operations
+
+            // Redirect to cart page
+            response.sendRedirect("cart.jsp");
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error fetching item data.");
         }
-
-        // Lägg till OrderItem i kundvagnen (ShoppingCart BO-klassen)
-        cart.addItem(orderItem);
-
-        // Nu konvertera BO-klassen (ShoppingCart) till DTO innan du sparar i sessionen
-        ShoppingCartDTO cartDTO = new ShoppingCartDTO(user.getUserId(), cart.getItems());
-        session.setAttribute(user.getUsername() + "_cart_bo", cart);  // Spara BO-klass för backend-lagret
-        session.setAttribute(user.getUsername() + "_cart", cartDTO);  // Spara DTO för UI-lagret
-
-        // Omdirigera tillbaka till en sida för att visa kundvagnen, till exempel cart.jsp
-        response.sendRedirect("cart.jsp");
     }
 }
-

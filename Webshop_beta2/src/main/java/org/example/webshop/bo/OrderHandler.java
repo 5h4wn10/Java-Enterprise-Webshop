@@ -1,12 +1,13 @@
 package org.example.webshop.bo;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class OrderHandler {
 
     // Skapa en ny order och spara den via Order-klassen
     public void createOrder(int userId, Order order) throws SQLException {
-        order.saveOrder(); // Delegerar till Order-klassens metod för att spara ordern
+        order.saveOrder(); // Delegerar till Order-klassens metod för att spara ordern och uppdatera lagret
     }
 
     // Lägg till ett objekt i ordern
@@ -25,7 +26,7 @@ public class OrderHandler {
     }
 
     // Hantera lagersaldo (detta kallas när du minskar lagret vid ordern)
-    public void updateStockForOrder(Order order) throws SQLException {
-        order.updateStockAfterOrder(); // Låter Order-klassen hantera lagersaldot
+    public void reduceStock(Order order, Connection con) throws SQLException {
+        order.updateStockAfterOrder(con); // Låter Order-klassen hantera lagersaldot
     }
 }
