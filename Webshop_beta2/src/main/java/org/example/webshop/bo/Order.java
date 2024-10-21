@@ -78,7 +78,7 @@ public class Order {
     public void saveOrder() throws SQLException {
         Connection con = null;
         try {
-            // Hämta en databaskoppling och starta en transaktion
+            // Hämtar en databaskoppling och starta en transaktion
             con = DBManager.getConnection();
             con.setAutoCommit(false); // Stäng av autocommit för att hantera transaktionen manuellt
 
@@ -105,7 +105,7 @@ public class Order {
     }
 
 
-    // Update stock after order completion
+    // Update stock efter order completion
     public void updateStockAfterOrder(Connection con) throws SQLException {
         for (OrderItem item : items) {
             // Uppdatera lagersaldot för varje produkt i ordern med hjälp av Connection-objektet
@@ -113,7 +113,7 @@ public class Order {
         }
     }
 
-    // Retrieve an order by ID
+    // Retrievar en order efter ID
     public static Order getOrderById(int orderId) throws SQLException {
         return OrderDB.getOrderById(orderId);
     }

@@ -8,6 +8,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private int roleId;
 
     // Konstruktorer
     public User(int userId, String username, String email, String password) {
@@ -15,6 +16,14 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(int userId, String username, String email, String password, int roleId) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roleId = roleId;
     }
 
 
@@ -47,6 +56,9 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public int getRoleId() { return roleId; }
+    public void setRoleId(int roleId) { this.roleId = roleId; }
 
     public String getEmail() {
         return email;

@@ -31,13 +31,13 @@ public class ItemHandler {
     }
 
     public static List<ItemInfoDTO> getAllItems() throws SQLException {
-        // Hämta alla produkter från Item-klassen
-        Collection<Item> items = Item.searchItems();  // Inget gruppfilter, så det hämtar allt
+        // Hämtar alla produkter från Item-klassen
+        Collection<Item> items = Item.searchItems();
 
         // Skapa en lista för att lagra resultaten
         List<ItemInfoDTO> itemList = new ArrayList<>();
 
-        // Loopa igenom och lägg till varje objekt i listan som ItemInfoDTO
+        // den loopar igenom och lägger till varje objekt i listan som ItemInfoDTO
         for (Item item : items) {
             itemList.add(new ItemInfoDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice(), item.getGroup(), item.getStock_quantity()));
         }

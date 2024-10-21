@@ -3,7 +3,7 @@ package org.example.webshop.ui;
 import org.example.webshop.bo.User;
 
 public class UserInfoDTO {
-    private int userId;       // Nytt fält för userId
+    private int userId;
     private String username;
 
     private String email;

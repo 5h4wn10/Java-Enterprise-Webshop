@@ -45,9 +45,9 @@ public class Item {
         return ItemDB.searchItems(group); // Hämtar från ItemDB
     }
 
-    // Skapa ett OrderItem från Item-objektet
+    // skapar ett OrderItem från Item-objektet
     public static Item getItemById(int itemId) throws SQLException {
-        // Hämta produkten från databasen genom ItemDB
+        // hämtat produkten från databasen genom ItemDB
         return ItemDB.getItemById(itemId);
     }
 
@@ -82,6 +82,6 @@ public class Item {
     }
 
     public String getGroup() {
-        return group; // Getter för gruppen
+        return group;
     }
 }
