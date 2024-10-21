@@ -14,10 +14,9 @@ public class UserHandler {
         return null; // Return null if authentication fails
     }
 
-    // Create a new user in the database
-    public void createUser(String username, String email, String password) throws SQLException {
-        User newUser = new User(username, email, password); // Skapa ett nytt User-objekt
-        newUser.save();  // Använd User-klassens metod för att spara användaren
+    public void createUser(String username, String email, String password, int roleId) throws SQLException {
+        User newUser = new User(username, email, password, roleId);
+        newUser.save();
     }
 
     // Fetch user by username
@@ -26,16 +25,16 @@ public class UserHandler {
     }
 
     // Metod för att registrera en ny användare
-    public void registerUser(String username, String email, String password) throws SQLException {
-        // Kontrollera om användarnamnet eller e-posten redan finns
+    public void registerUser(String username, String email, String password, int roleId) throws SQLException {
+        // Check if username or email already exists
         if (User.userExists(username, email)) {
             throw new SQLException("Username or email already exists.");
         }
 
-        // Skapa en ny användare och spara den i databasen
-        User newUser = new User(username, email, password);
-        newUser.save();  // Använd User-klassens metod för att spara användaren
+        // Create a new user and save it to the database
+        User newUser = new User(username, email, password, roleId); // Pass roleId here
+        newUser.save();  // Use User class method to save the user
     }
 
-    // Ytterligare hantering av användarroller eller behörigheter kan också läggas till här
+
 }

@@ -14,27 +14,26 @@ import java.sql.SQLException;
 @WebServlet("/registerServlet")
 public class RegisterServlet extends HttpServlet {
 
-    private UserHandler userHandler = new UserHandler();  // Instans av UserHandler
+    private UserHandler userHandler = new UserHandler();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        int roleId = Integer.parseInt(request.getParameter("role")); // Fetch roleId from the registration form
 
         try {
-            // Använd UserHandler (BO) för att registrera användaren
-            userHandler.registerUser(username, email, password);
+            // Register user with role
+            userHandler.registerUser(username, email, password, roleId);
 
-            // När användaren är registrerad, skapa ett UserInfoDTO och sätt i sessionen för att skicka till UI
-            UserInfoDTO userDTO = new UserInfoDTO(username);  // Endast användarnamnet för DTO
+            // Create UserInfoDTO with role data and set it in the session
+            UserInfoDTO userDTO = new UserInfoDTO(0, username, email, roleId);  // Update constructor to match available data
             request.getSession().setAttribute("user", userDTO);
 
-            // Omdirigera till login-sidan efter framgångsrik registrering
             response.sendRedirect("login.jsp");
 
         } catch (SQLException e) {
-            // Hantera eventuella fel, t.ex. användarnamn eller e-post finns redan
             request.setAttribute("errorMessage", e.getMessage());
             request.getRequestDispatcher("register.jsp").forward(request, response);
         }

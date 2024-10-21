@@ -13,7 +13,11 @@ public class UserDB {
         ResultSet rs = null;
 
         try {
-            String query = "SELECT user_id, username, password, email FROM users WHERE username = ?";
+            // SQL-fråga som hämtar användarinfo tillsammans med rollnamnet genom en JOIN
+            String query = "SELECT u.user_id, u.username, u.password, u.email, u.role_id, r.role_name " +
+                    "FROM users u " +
+                    "JOIN roles r ON u.role_id = r.role_id " +
+                    "WHERE u.username = ?";
             ps = con.prepareStatement(query);
             ps.setString(1, username);
 
@@ -23,9 +27,11 @@ public class UserDB {
                 String dbUsername = rs.getString("username");
                 String dbPassword = rs.getString("password");
                 String email = rs.getString("email");
+                int roleId = rs.getInt("role_id");
+                String roleName = rs.getString("role_name");  // Hämtar rollnamnet
 
-                // Skapa en User om användaren finns i databasen
-                user = new User(userId, dbUsername, email, dbPassword);
+                // Skapa en User med rollen om användaren finns i databasen
+                user = new User(userId, dbUsername, email, dbPassword, roleId, roleName);
             }
         } finally {
             if (rs != null) rs.close();
@@ -39,17 +45,29 @@ public class UserDB {
     // Skapa en ny användare i databasen
     public static void createUser(User user) throws SQLException {
         Connection con = DBManager.getConnection();
-        String query = "INSERT INTO users (username, email, password, created_at) VALUES (?, ?, ?, NOW())";
-        PreparedStatement ps = con.prepareStatement(query);
+        String query = "INSERT INTO users (username, email, password, role_id, created_at) VALUES (?, ?, ?, ?, NOW())";
+        PreparedStatement ps = null;
 
-        ps.setString(1, user.getUsername());
-        ps.setString(2, user.getEmail());
-        ps.setString(3, user.getPassword());
+        try {
+            ps = con.prepareStatement(query);
 
-        ps.executeUpdate();
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getRoleId());
 
-        ps.close();
-        con.close();
+            // Försök att köra SQL-frågan
+            try {
+                ps.executeUpdate();
+                System.out.println("User successfully saved!");
+            } catch (SQLException e) {
+                e.printStackTrace();  // Printar detaljer om SQL-felet till loggen
+            }
+
+        } finally {
+            if (ps != null) ps.close();
+            if (con != null) con.close();
+        }
     }
 
 

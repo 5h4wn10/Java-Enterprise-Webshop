@@ -24,26 +24,28 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-
         try {
             User user = userHandler.authenticateUser(username, password);
             if (user != null) {
-                // Konvertera User till UserDTO och sätt i sessionen
-                UserInfoDTO userDTO = new UserInfoDTO(user.getUserId(), user.getUsername());
+                // Fetch roleId and roleName from user
+                UserInfoDTO userDTO = new UserInfoDTO(user.getUserId(), user.getUsername(), user.getEmail(), user.getRoleId(), user.getRoleName());
                 HttpSession session = request.getSession();
                 session.setAttribute("user", userDTO);
 
-                // Skapa en ny tom kundvagn om det inte redan finns
+                // Create new shopping cart if it does not exist
                 ShoppingCart cart = (ShoppingCart) session.getAttribute(userDTO.getUsername() + "_cart");
                 if (cart == null) {
-                    cart = new ShoppingCart(user.getUserId());  // Skapa en ny, tom varukorg
-                    session.setAttribute(userDTO.getUsername() + "_cart", cart);  // Lägg till den nya varukorgen i sessionen
+                    cart = new ShoppingCart(user.getUserId());  // Create a new, empty cart
+                    session.setAttribute(userDTO.getUsername() + "_cart", cart);
                 }
 
-                // Omdirigera till indexsidan
-                response.sendRedirect("index.jsp");
+                // Redirect based on role: admin goes to admin page, customer goes to index
+                if (userDTO.getRoleId() == 2) {
+                    response.sendRedirect("admin.jsp");  // Admin page
+                } else {
+                    response.sendRedirect("index.jsp");
+                }
             } else {
-                // Felaktig inloggning, skicka tillbaka med felmeddelande
                 request.setAttribute("errorMessage", "Invalid login credentials.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
@@ -52,3 +54,4 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
+

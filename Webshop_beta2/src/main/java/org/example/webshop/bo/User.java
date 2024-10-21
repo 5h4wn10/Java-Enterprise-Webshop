@@ -9,6 +9,7 @@ public class User {
     private String password;
     private String email;
     private int roleId;
+    private String roleName;
 
     // Konstruktorer
     public User(int userId, String username, String email, String password) {
@@ -18,12 +19,13 @@ public class User {
         this.password = password;
     }
 
-    public User(int userId, String username, String email, String password, int roleId) {
+    public User(int userId, String username, String email, String password, int roleId, String roleName) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
         this.roleId = roleId;
+        this.roleName = roleName;
     }
 
 
@@ -39,12 +41,14 @@ public class User {
         this.password = password;
     }
 
-    public User(String username, String password) {
+    public User(String username, String email, String password, int roleId) {
         this.username = username;
+        this.email = email;
         this.password = password;
+        this.roleId = roleId;
     }
 
-    // Getter-metoder
+
     public int getUserId() {
         return userId;
     }
@@ -67,6 +71,8 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+    public String getRoleName() { return roleName; }
+
 
     // En enkel metod för autentisering
     public boolean authenticate(String inputPassword) {

@@ -42,6 +42,15 @@
             border-radius: 5px;
         }
 
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+
         input[type="submit"] {
             background-color: #007bff;
             color: white;
@@ -85,6 +94,13 @@
 
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
+
+        <label for="role">Choose Role:</label>
+        <select id="role" name="role" required>
+            <option value="1">Customer</option>
+            <option value="2">Admin</option>
+            <option value="3">Warehouse Staff</option>
+        </select>
 
         <input type="submit" value="Create Account">
     </form>

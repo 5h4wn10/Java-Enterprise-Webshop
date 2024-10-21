@@ -32,28 +32,23 @@ public class OrderServlet extends HttpServlet {
             return;
         }
 
-        // Hämta order-id från förfrågan
+        // Only admins can access this section
+        if (user.getRoleId() != 2) {
+            response.sendRedirect("unauthorized.jsp");  // Show unauthorized access page
+            return;
+        }
+
+        // Fetch and display the order for admins
         int orderId = Integer.parseInt(request.getParameter("orderId"));
 
         try {
-            // Hämta ordern baserat på orderId
             Order order = orderHandler.getOrderById(orderId);
 
-            // Konvertera OrderItems till OrderItemDTOs för att skicka till JSP
             List<OrderItemDTO> orderItemsDTO = new ArrayList<>();
             for (OrderItem item : order.getItems()) {
-                OrderItemDTO dto = new OrderItemDTO(
-                        item.getId(),
-                        item.getName(),
-                        item.getDescription(),
-                        item.getPrice(),
-                        item.getGroup(),
-                        item.getOrderedQuantity()
-                );
-                orderItemsDTO.add(dto);
+                orderItemsDTO.add(new OrderItemDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice(), item.getGroup(), item.getOrderedQuantity()));
             }
 
-            // Skicka orderinformation till JSP via DTO
             request.setAttribute("orderItems", orderItemsDTO);
             request.setAttribute("totalPrice", order.getTotalPrice());
             request.getRequestDispatcher("orderConfirmation.jsp").forward(request, response);
@@ -63,3 +58,4 @@ public class OrderServlet extends HttpServlet {
         }
     }
 }
+

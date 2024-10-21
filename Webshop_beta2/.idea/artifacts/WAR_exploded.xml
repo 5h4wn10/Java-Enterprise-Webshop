@@ -17,6 +17,7 @@
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/register.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/orderConfirmation.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/login.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/admin.jsp" />
     </root>
   </artifact>
 </component>
