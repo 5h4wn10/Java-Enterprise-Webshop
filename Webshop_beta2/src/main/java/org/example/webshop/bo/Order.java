@@ -3,6 +3,7 @@ package org.example.webshop.bo;
 import org.example.webshop.db.DBManager;
 import org.example.webshop.db.OrderDB;
 import org.example.webshop.db.ItemDB;
+import org.example.webshop.ui.OrderDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,6 +15,7 @@ public class Order {
     private int userId;
     private List<OrderItem> items;
     private String orderDate;
+    private int totalprice;
 
     // Constructor for creating a new order
     public Order(int orderId, int userId) {
@@ -30,6 +32,8 @@ public class Order {
         this.items = items;
     }
 
+
+
     public Order(int userId) {
     }
 
@@ -39,30 +43,44 @@ public class Order {
     }
 
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
     public int getOrderId() {
         return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
     public int getUserId() {
         return userId;
     }
 
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
+
     public String getOrderDate() {
         return orderDate;
     }
 
-    // Add an item to the order
-    public void addItem(OrderItem item) {
-        items.add(item);
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
-    // Get all items in the order
-    public List<OrderItem> getItems() {
-        return items;
+    public int getTotalprice() {
+        return totalprice;
+    }
+
+    public void setTotalprice(int totalprice) {
+        this.totalprice = totalprice;
     }
 
     // Calculate total price of the order
@@ -72,6 +90,12 @@ public class Order {
             total += item.calculateTotalPrice();
         }
         return total;
+    }
+
+
+    // Add an item to the order
+    public void addItem(OrderItem item) {
+        items.add(item);
     }
 
     // Metod för att spara en order och uppdatera lagersaldot
@@ -116,5 +140,18 @@ public class Order {
     // Retrievar en order efter ID
     public static Order getOrderById(int orderId) throws SQLException {
         return OrderDB.getOrderById(orderId);
+    }
+
+    // Hämta alla ordrar med status "Pending"
+    // I OrderHandler, när du hämtar pending orders:
+    public static List<Order> getPendingOrders() throws SQLException {
+        return OrderDB.getOrdersByStatus("Pending");
+    }
+
+
+    // Markera en order som packad
+    public static void markOrderAsPacked(int orderId) throws SQLException {
+        System.out.println("Order utförs");
+        OrderDB.updateOrderStatus(orderId, "Packed");
     }
 }

@@ -46,8 +46,21 @@ public class ItemHandler {
     }
 
     // Metod för att hämta produkt baserat på itemId genom Item-klassen
-    public Item getItemById(int itemId) throws SQLException {
+    public static Item getItemById(int itemId) throws SQLException {
+        System.out.println("Fetching item with ID: " + itemId);
         // Använd Item-klassen för att hämta produktdata
         return Item.getItemById(itemId);
     }
+
+
+
+    //uppdaterar en vara //admin eller warehouse-staff kan göra det
+    public static void updateItem(int id, String name, String description, int price, int stock) throws SQLException {
+        Item.updateItem(id, name, description, price, stock);
+    }
+
+    public static void deleteItem(int itemId) throws SQLException {
+        Item.deleteItem(itemId);
+    }
+
 }

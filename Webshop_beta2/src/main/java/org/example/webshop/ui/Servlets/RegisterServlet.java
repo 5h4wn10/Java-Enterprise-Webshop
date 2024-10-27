@@ -1,4 +1,4 @@
-package org.example.webshop.ui;
+package org.example.webshop.ui.Servlets;
 
 import jakarta.servlet.annotation.WebServlet;
 import org.example.webshop.bo.UserHandler;
@@ -21,7 +21,7 @@ public class RegisterServlet extends HttpServlet {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        int roleId = Integer.parseInt(request.getParameter("role")); // Fetch roleId from the registration form
+        int roleId = Integer.parseInt(request.getParameter("role"));
 
         try {
             // Register user with role

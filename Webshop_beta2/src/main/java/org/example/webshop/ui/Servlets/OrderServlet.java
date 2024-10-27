@@ -1,4 +1,4 @@
-package org.example.webshop.ui;
+package org.example.webshop.ui.Servlets;
 
 import org.example.webshop.bo.Order;
 import org.example.webshop.bo.OrderHandler;

@@ -113,4 +113,51 @@ public class ItemDB extends Item {
         ps.executeUpdate();
         ps.close();
     }
+
+    // Uppdaterar en vara i databasen
+    public static void updateItem(int itemId, String name, String description, int price, int stockQuantity) throws SQLException {
+        Connection con = null;
+        try {
+            con = DBManager.getConnection();
+            con.setAutoCommit(false);  // Avstängd auto-commit
+
+            String query = "UPDATE item SET name = ?, description = ?, price = ?, stock_quantity = ? WHERE item_id = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setString(1, name);
+            ps.setString(2, description);
+            ps.setInt(3, price);
+            ps.setInt(4, stockQuantity);
+            ps.setInt(5, itemId);
+
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Updaten gick bra, rows affected: " + rowsAffected);
+
+            con.commit();  // Viktigt! Commit transaktionen
+        } catch (SQLException e) {
+            if (con != null) {
+                con.rollback();  // Rollback vid fel
+            }
+            System.err.println("Failed to update item: " + e.getMessage());
+            throw e;
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public static void deleteItem(int itemId) throws SQLException {
+        String query = "DELETE FROM item WHERE item_id = ?";
+
+        try (Connection con = DBManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setInt(1, itemId);
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("Item deleted, rows affected: " + rowsAffected);
+        }
+    }
+
+
+
 }

@@ -18,6 +18,14 @@ public class OrderItemDTO {
         this.orderedQuantity = orderedQuantity;
     }
 
+    public OrderItemDTO(int itemId, String name, String description, int price, int orderedQuantity) {
+        this.itemId = itemId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.orderedQuantity = orderedQuantity;
+    }
+
     // Getters and Setters
     public int getItemId() {
         return itemId;

@@ -1,28 +1,14 @@
-<%@page import="org.example.webshop.ui.ItemInfoDTO"%>
-<%@page import="org.example.webshop.bo.ItemHandler"%>
-<%@page import="java.util.List"%>
-<%@page import="org.example.webshop.ui.UserInfoDTO"%>
-<%@page session="true" %>
+<%@ page import="org.example.webshop.ui.OrderDTO" %>
+<%@ page import="org.example.webshop.ui.OrderItemDTO" %>
+<%@ page import="java.util.List" %>
 
 <%
-    // Kontrollera om användaren är inloggad och om de är en admin
-    UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
-    if (user == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-
-    if (user.getRoleId() == 1) { // 2 is assumed to be the Admin role
-        response.sendRedirect("index.jsp"); // Redirect non-admins back to the index page
-        return;
-    }
-
-    // Hämta alla produkter från ItemHandler
-    List<ItemInfoDTO> items = ItemHandler.getAllItems();
+    List<OrderDTO> pendingOrders = (List<OrderDTO>) request.getAttribute("pendingOrders");
 %>
+
 <html>
 <head>
-    <title>Admin Dashboard</title>
+    <title>View Orders</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -99,17 +85,13 @@
             transition: background-color 0.3s;
         }
 
-        .btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
         .btn:hover:enabled {
             background-color: #218838;
         }
 
-        .view-cart {
+        .back-link {
             display: inline-block;
+            margin-top: 20px;
             padding: 10px 20px;
             background-color: #007bff;
             color: white;
@@ -118,7 +100,7 @@
             transition: background-color 0.3s;
         }
 
-        .view-cart:hover {
+        .back-link:hover {
             background-color: #0056b3;
         }
 
@@ -132,74 +114,60 @@
         .footer p {
             color: #6c757d;
         }
-
-        /* Additional styles for admin actions */
-        .admin-actions {
-            margin-bottom: 20px;
-        }
-
-        .admin-actions a {
-            display: inline-block;
-            margin-right: 15px;
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .admin-actions a:hover {
-            background-color: #218838;
-        }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <h1>Welcome, Admin <%= user.getUsername() %>!</h1>
-    <p>This is your Admin Dashboard.</p>
-    <a href="login.jsp">Log out</a>
+    <h1>Pending Orders</h1>
 </div>
 
 <div class="container">
-    <h1>Manage Products</h1>
-
-    <div class="admin-actions">
-        <a href="addProduct.jsp">Add New Product</a>
-        <a href="manageUsers.jsp">Manage Users</a>
-        <a href="viewOrdersServlet">View Orders</a>
-    </div>
-
+    <%
+        if (pendingOrders == null || pendingOrders.isEmpty()) {
+    %>
+    <p>No pending orders.</p>
+    <%
+    } else {
+    %>
     <table>
+        <thead>
         <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Item Description</th>
-            <th>Group</th>
-            <th>Stock</th>
+            <th>Order ID</th>
+            <th>Order Date</th>
+            <th>Total Price (SEK)</th>
+            <th>Items</th>
             <th>Actions</th>
         </tr>
-
-        <%
-            for (ItemInfoDTO item : items) {
-        %>
+        </thead>
+        <tbody>
+        <% for (OrderDTO order : pendingOrders) { %>
         <tr>
-            <td><%= item.getName() %></td>
-            <td><%= item.getPrice() %> SEK</td>
-            <td><%= item.getDescription() %></td>
-            <td><%= item.getGroup() %></td>
-            <td><%= item.getStock_quantity() %></td>
+            <td><%= order.getOrderId() %></td>
+            <td><%= order.getOrderDate() %></td>
+            <td><%= order.getTotalPrice() %> SEK</td>
             <td>
-                <!-- Buttons for admin actions -->
-                <a class="btn" href="editItem?itemId=<%= item.getId() %>">Edit</a>
-                <a class="btn" href="deleteProductServlet?itemId=<%= item.getId() %>">Delete</a>
+                <ul>
+                    <% for (OrderItemDTO item : order.getItems()) { %>
+                    <li><%= item.getName() %> - <%= item.getOrderedQuantity() %> x <%= item.getPrice() %> SEK</li>
+                    <% } %>
+                </ul>
+            </td>
+            <td>
+                <form action="packOrderServlet" method="post">
+                    <input type="hidden" name="orderId" value="<%= order.getOrderId() %>">
+                    <input type="submit" class="btn" value="Mark as Packed">
+                </form>
             </td>
         </tr>
-        <%
-            }
-        %>
+        <% } %>
+        </tbody>
     </table>
+    <%
+        }
+    %>
 
+    <a href="admin.jsp" class="back-link">Back to Admin Page</a>
 </div>
 
 <div class="footer">

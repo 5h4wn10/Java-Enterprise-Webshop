@@ -1,4 +1,4 @@
-package org.example.webshop.ui;
+package org.example.webshop.ui.Servlets;
 
 import org.example.webshop.bo.User;
 import org.example.webshop.bo.ShoppingCart;
@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
                 }
 
                 // Redirect based on role: admin goes to admin page, customer goes to index
-                if (userDTO.getRoleId() == 2) {
+                if (userDTO.getRoleId() != 1) {
                     response.sendRedirect("admin.jsp");  // Admin page
                 } else {
                     response.sendRedirect("index.jsp");

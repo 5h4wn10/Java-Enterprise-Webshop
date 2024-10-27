@@ -1,7 +1,10 @@
 package org.example.webshop.bo;
 
+import org.example.webshop.ui.OrderDTO;
+
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class OrderHandler {
 
@@ -29,4 +32,17 @@ public class OrderHandler {
     public void reduceStock(Order order, Connection con) throws SQLException {
         order.updateStockAfterOrder(con); // Låter Order-klassen hantera lagersaldot
     }
+
+    // Hämta alla ordrar med status "Pending"
+    public static List<Order> getPendingOrders() throws SQLException {
+        return Order.getPendingOrders();
+    }
+
+    // Markera en order som packad
+    public static void markOrderAsPacked(int orderId) throws SQLException {
+        System.out.println("OrderHandler utförs");
+        Order.markOrderAsPacked(orderId);
+    }
+
+
 }

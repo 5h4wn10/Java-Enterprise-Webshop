@@ -101,10 +101,10 @@
 
     <form action="loginServlet" method="post">
         <label for="username">USERNAME:</label>
-        <input type="text" id="username" name="username" value="shan saifi" required><br><br> <!-- Autofyll med användarnamn -->
+        <input type="text" id="username" name="username" value="lager" required><br><br> <!-- Autofyll med användarnamn -->
 
         <label for="password">PASSWORD:</label>
-        <input type="password" id="password" name="password" value="shan123" required><br><br> <!-- Autofyll med lösenord -->
+        <input type="password" id="password" name="password" value="lager" required><br><br> <!-- Autofyll med lösenord -->
 
         <input type="submit" value="Login">
     </form>

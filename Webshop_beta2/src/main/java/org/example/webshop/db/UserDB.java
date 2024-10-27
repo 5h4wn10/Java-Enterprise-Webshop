@@ -49,26 +49,31 @@ public class UserDB {
         PreparedStatement ps = null;
 
         try {
-            ps = con.prepareStatement(query);
+            con.setAutoCommit(false);  // Starta transaktionen
 
+            ps = con.prepareStatement(query);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
             ps.setInt(4, user.getRoleId());
 
             // Försök att köra SQL-frågan
-            try {
-                ps.executeUpdate();
-                System.out.println("User successfully saved!");
-            } catch (SQLException e) {
-                e.printStackTrace();  // Printar detaljer om SQL-felet till loggen
-            }
+            ps.executeUpdate();
+            System.out.println("User successfully saved!");
 
+            con.commit();  // Commit transaktionen efter infogningen
+
+        } catch (SQLException e) {
+            if (con != null) {
+                con.rollback();  // Rulla tillbaka om något går fel
+            }
+            e.printStackTrace();  // Printar detaljer om SQL-felet till loggen
         } finally {
             if (ps != null) ps.close();
             if (con != null) con.close();
         }
     }
+
 
 
     // Metod för att kontrollera om ett användarnamn eller e-post redan finns i databasen

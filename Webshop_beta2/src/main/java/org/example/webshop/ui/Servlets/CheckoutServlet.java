@@ -1,5 +1,5 @@
 
-package org.example.webshop.ui;
+package org.example.webshop.ui.Servlets;
 
 import org.example.webshop.bo.Order;
 import org.example.webshop.bo.OrderHandler;
@@ -13,6 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.webshop.db.DBManager;
+import org.example.webshop.ui.OrderItemDTO;
+import org.example.webshop.ui.ShoppingCartDTO;
+import org.example.webshop.ui.UserInfoDTO;
 
 import java.io.IOException;
 import java.sql.Connection;

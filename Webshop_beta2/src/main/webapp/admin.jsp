@@ -167,7 +167,7 @@
     <div class="admin-actions">
         <a href="addProduct.jsp">Add New Product</a>
         <a href="manageUsers.jsp">Manage Users</a>
-        <a href="viewOrders.jsp">View Orders</a>
+        <a href="viewOrdersServlet">View Orders</a>
     </div>
 
     <table>
@@ -191,7 +191,7 @@
             <td><%= item.getStock_quantity() %></td>
             <td>
                 <!-- Buttons for admin actions -->
-                <a class="btn" href="editProduct.jsp?itemId=<%= item.getId() %>">Edit</a>
+                <a class="btn" href="editItem?itemId=<%= item.getId() %>">Edit</a>
                 <a class="btn" href="deleteProductServlet?itemId=<%= item.getId() %>">Delete</a>
             </td>
         </tr>

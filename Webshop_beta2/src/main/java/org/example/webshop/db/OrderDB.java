@@ -4,8 +4,10 @@ import org.example.webshop.bo.Order;
 import org.example.webshop.bo.OrderItem;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-    public class OrderDB {
+public class OrderDB {
 
         // Metod för att spara en order i databasen
         public static void saveOrder(Order order, Connection con) throws SQLException {
@@ -86,4 +88,92 @@ import java.sql.*;
             order.addItem(item);
         }
     }
+
+    // Hämta ordrar baserat på status (t.ex. Pending, Packed)
+    public static List<Order> getOrdersByStatus(String status) throws SQLException {
+        List<Order> orders = new ArrayList<>();
+        Connection con = DBManager.getConnection();
+
+        try {
+            String query = "SELECT * FROM orders WHERE status = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, status);
+
+            System.out.println("Executing query: " + query + " with status = " + status); // Lägg till utskrift för att se frågan
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int orderId = rs.getInt("order_id");
+                int userId = rs.getInt("user_id");
+                String orderDate = rs.getString("order_date");
+                int totalPrice = rs.getInt("total_price");
+
+                // Skapa en Order och lägg till i listan
+                Order order = new Order(orderId, userId, orderDate, new ArrayList<>());
+                orders.add(order);
+            }
+
+            System.out.println("Found " + orders.size() + " orders with status: " + status); // Lägg till utskrift för att se hur många ordrar som hämtades
+        } finally {
+            con.close();
+        }
+
+        return orders;
+    }
+
+
+
+    // Uppdatera status för en order (exempelvis från 'Pending' till 'Packed')
+    public static void updateOrderStatus(int orderId, String status) throws SQLException {
+        Connection con = DBManager.getConnection();
+
+        try {
+            con.setAutoCommit(false); // Om du vill stänga av autocommit
+            String query = "UPDATE orders SET status = ? WHERE order_id = ?";
+            System.out.println("OrderDB utförs och " + orderId + " ska ställas till " + status);
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, status);
+            ps.setInt(2, orderId);
+            ps.executeUpdate();
+            con.commit();  // Viktigt om autocommit är avstängt
+        } catch (SQLException e) {
+            if (con != null) {
+                con.rollback(); // Om något går fel, rulla tillbaka transaktionen
+            }
+            throw e;
+        } finally {
+            con.close();
+        }
+    }
+
+    // Hämta order items (om du har en separat tabell för detta)
+    private static List<OrderItem> getOrderItems(int orderId) throws SQLException {
+        List<OrderItem> items = new ArrayList<>();
+        Connection con = DBManager.getConnection();
+
+        try {
+            String query = "SELECT * FROM order_items WHERE order_id = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int itemId = rs.getInt("item_id");
+                int quantity = rs.getInt("quantity");
+                String name = rs.getString("name");
+                int price = rs.getInt("price");
+                String group = rs.getString("group");
+
+                OrderItem item = new OrderItem(itemId, name, null, price, group, 0, quantity); // OrderItem constructor
+                items.add(item);
+            }
+        } finally {
+            con.close();
+        }
+
+        return items;
+    }
+
+
 }

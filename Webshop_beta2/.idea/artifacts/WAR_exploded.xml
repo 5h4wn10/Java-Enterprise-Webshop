@@ -15,9 +15,11 @@
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/cart.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/checkout.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/register.jsp" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/orderConfirmation.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/login.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/admin.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/editItem.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/accessDenied.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/viewOrders.jsp" />
     </root>
   </artifact>
 </component>

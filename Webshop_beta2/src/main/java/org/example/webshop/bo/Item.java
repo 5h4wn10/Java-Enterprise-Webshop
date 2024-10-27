@@ -32,25 +32,6 @@ public class Item {
         this.stock_quantity = stock_quantity;
     }
 
-    // Statisk metod för att skapa ett Item-objekt
-    public static Item createItem(int id, String name, String description, int price, String group, int stock_quantity) {
-        return new Item(id, name, description, price, group, stock_quantity);
-    }
-
-
-    static public Collection<Item> searchItems() throws SQLException {
-        return ItemDB.searchItems(); // Hämtar alla objekt från ItemDB
-    }
-    static public Collection<Item> searchItems(String group) throws SQLException {
-        return ItemDB.searchItems(group); // Hämtar från ItemDB
-    }
-
-    // skapar ett OrderItem från Item-objektet
-    public static Item getItemById(int itemId) throws SQLException {
-        // hämtat produkten från databasen genom ItemDB
-        return ItemDB.getItemById(itemId);
-    }
-
 
     public int getStock_quantity() {
         return stock_quantity;
@@ -83,5 +64,35 @@ public class Item {
 
     public String getGroup() {
         return group;
+    }
+
+
+
+    // Statisk metod för att skapa ett Item-objekt
+    public static Item createItem(int id, String name, String description, int price, String group, int stock_quantity) {
+        return new Item(id, name, description, price, group, stock_quantity);
+    }
+
+
+    static public Collection<Item> searchItems() throws SQLException {
+        return ItemDB.searchItems(); // Hämtar alla objekt från ItemDB
+    }
+    static public Collection<Item> searchItems(String group) throws SQLException {
+        return ItemDB.searchItems(group); // Hämtar från ItemDB
+    }
+
+    // skapar ett OrderItem från Item-objektet
+    public static Item getItemById(int itemId) throws SQLException {
+        // hämtat produkten från databasen genom ItemDB
+        return ItemDB.getItemById(itemId);
+    }
+
+    // Metod för att uppdatera ett item genom ItemDB
+    public static void updateItem(int id, String name, String description, int price, int stockQuantity) throws SQLException {
+        ItemDB.updateItem(id, name, description, price, stockQuantity);
+    }
+
+    public static void deleteItem(int itemId) throws SQLException {
+        ItemDB.deleteItem(itemId);
     }
 }
