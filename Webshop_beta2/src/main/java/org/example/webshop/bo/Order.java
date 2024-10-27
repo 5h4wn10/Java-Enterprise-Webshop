@@ -25,11 +25,12 @@ public class Order {
     }
 
     // Constructor for handling an existing order
-    public Order(int orderId, int userId, String orderDate, List<OrderItem> items) {
+    public Order(int orderId, int userId, String orderDate, List<OrderItem> items, int totalprice) {
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
         this.items = items;
+        this.totalprice = totalprice;
     }
 
 
@@ -75,7 +76,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public int getTotalprice() {
+    public int getTotalpriceGeneral() {
         return totalprice;
     }
 
@@ -98,36 +99,10 @@ public class Order {
         items.add(item);
     }
 
-    // Metod för att spara en order och uppdatera lagersaldot
+    // Metod för att spara en order
     public void saveOrder() throws SQLException {
-        Connection con = null;
-        try {
-            // Hämtar en databaskoppling och starta en transaktion
-            con = DBManager.getConnection();
-            con.setAutoCommit(false); // Stäng av autocommit för att hantera transaktionen manuellt
-
-            // Spara ordern och uppdatera lagersaldot i en transaktion
-            OrderDB.saveOrder(this, con);
-
-            // Uppdatera lagersaldo för varje objekt i ordern
-            updateStockAfterOrder(con);
-
-            // Om allt går bra, commit transaktionen
-            con.commit();
-        } catch (SQLException e) {
-            // Om något går fel, rulla tillbaka transaktionen
-            if (con != null) {
-                con.rollback();
-            }
-            throw e; // Vidarebefordra undantaget
-        } finally {
-            if (con != null) {
-                con.setAutoCommit(true); // Återställ autocommit
-                con.close();
-            }
-        }
+        OrderDB.saveOrder(this);
     }
-
 
     // Update stock efter order completion
     public void updateStockAfterOrder(Connection con) throws SQLException {

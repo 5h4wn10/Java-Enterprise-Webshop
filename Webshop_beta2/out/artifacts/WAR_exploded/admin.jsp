@@ -165,8 +165,8 @@
     <h1>Manage Products</h1>
 
     <div class="admin-actions">
-        <a href="addProduct.jsp">Add New Product</a>
-        <a href="manageUsers.jsp">Manage Users</a>
+        <a href="createProductServlet">Add New Product</a>
+        <a href="viewCategoriesServlet">Manage Categories</a>
         <a href="viewOrdersServlet">View Orders</a>
     </div>
 

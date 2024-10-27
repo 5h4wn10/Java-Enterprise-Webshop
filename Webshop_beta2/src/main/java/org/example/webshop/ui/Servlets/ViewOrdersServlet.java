@@ -30,9 +30,11 @@ public class ViewOrdersServlet extends HttpServlet {
             for (Order order : pendingOrders) {
                 List<OrderItemDTO> orderItemsDTO = new ArrayList<>();
                 for (OrderItem item : order.getItems()) {
+                    System.out.println("Item Name: " + item.getName() + ", Price: " + item.getPrice() + ", Ordered Quantity: " + item.getOrderedQuantity());
                     orderItemsDTO.add(new OrderItemDTO(item.getId(), item.getName(), item.getDescription(), item.getPrice(), item.getOrderedQuantity()));
                 }
-                orderDTOs.add(new OrderDTO(order.getOrderId(), order.getUserId(), orderItemsDTO, order.getTotalPrice(), order.getOrderDate()));
+
+                orderDTOs.add(new OrderDTO(order.getOrderId(), order.getUserId(), orderItemsDTO, order.getTotalpriceGeneral(), order.getOrderDate()));
             }
 
             // Debug: Skriv ut antal DTOs som skapades

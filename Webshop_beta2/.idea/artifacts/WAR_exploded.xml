@@ -20,6 +20,11 @@
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/editItem.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/accessDenied.jsp" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/viewOrders.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/orderConfirmation.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/viewCategories.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/editCategory.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/addProduct.jsp" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/main/webapp/addCategory.jsp" />
     </root>
   </artifact>
 </component>

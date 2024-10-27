@@ -11,6 +11,7 @@ public class Item {
     private String description;
     private int price;
     private String group;
+    private int categoryId;
 
     private int stock_quantity;
 
@@ -30,6 +31,13 @@ public class Item {
         this.price = price;
         this.group = group;
         this.stock_quantity = stock_quantity;
+    }
+
+    protected Item(String name, int price, String description, int categoryId) {
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.categoryId = categoryId;
     }
 
 
@@ -60,6 +68,14 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getGroup() {
@@ -94,5 +110,11 @@ public class Item {
 
     public static void deleteItem(int itemId) throws SQLException {
         ItemDB.deleteItem(itemId);
+    }
+
+
+    // Metod för att spara en produkt (delegerar till ItemDB)
+    public void save() throws SQLException {
+        ItemDB.saveItem(this);
     }
 }

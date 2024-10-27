@@ -159,5 +159,21 @@ public class ItemDB extends Item {
     }
 
 
+    // Metod för att spara en produkt i databasen
+    public static void saveItem(Item item) throws SQLException {
+        Connection con = DBManager.getConnection();
+        try {
+            String query = "INSERT INTO products (name, price, description, category_id) VALUES (?, ?, ?, ?)";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, item.getName());
+            ps.setInt(2, item.getPrice());
+            ps.setString(3, item.getDescription());
+            ps.setInt(4, item.getCategoryId());
+            ps.executeUpdate();
+        } finally {
+            con.close();
+        }
+    }
+
 
 }

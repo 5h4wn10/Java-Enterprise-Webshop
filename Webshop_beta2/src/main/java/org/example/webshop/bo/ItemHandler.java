@@ -63,4 +63,10 @@ public class ItemHandler {
         Item.deleteItem(itemId);
     }
 
+    // Metod för att skapa en produkt för adminer
+    public static void createProduct(String name, int price, String description, int categoryId) throws SQLException {
+        Item newItem = new Item(name, price, description, categoryId);
+        newItem.save();  // Delegerar till Item-klassen att spara produkten
+    }
+
 }

@@ -1,16 +1,21 @@
 package org.example.webshop.bo;
 
+import org.example.webshop.db.CategoryDB;
+
+import java.sql.SQLException;
+import java.util.List;
+
 public class Category {
     private int categoryId;
     private String name;
 
-    // Constructor
+    // Konstruktor
     public Category(int categoryId, String name) {
         this.categoryId = categoryId;
         this.name = name;
     }
 
-    // Getter and Setter methods
+    // Getter och Setter metoder
     public int getCategoryId() {
         return categoryId;
     }
@@ -27,16 +32,24 @@ public class Category {
         this.name = name;
     }
 
-    // Static methods to create, edit, and delete categories (implement DB interactions)
-    public static void createCategory(String name) {
-        // Logic for adding category to the database
+    // Metod för att skapa en kategori (anropar CategoryDB)
+    public static void createCategory(String name) throws SQLException {
+        Category newCategory = new Category(0, name);
+        CategoryDB.saveCategory(newCategory);
     }
 
-    public static void editCategory(int categoryId, String newName) {
-        // Logic for editing a category in the database
+    // Metod för att uppdatera en kategori (anropar CategoryDB)
+    public static void editCategory(int categoryId, String newName) throws SQLException {
+        CategoryDB.updateCategory(categoryId, newName);
     }
 
-    public static void deleteCategory(int categoryId) {
-        // Logic for deleting a category from the database
+    // Metod för att ta bort en kategori (anropar CategoryDB)
+    public static void deleteCategory(int categoryId) throws SQLException {
+        CategoryDB.deleteCategory(categoryId);
+    }
+
+    // Metod för att hämta alla kategorier (anropar CategoryDB)
+    public static List<Category> getAllCategories() throws SQLException {
+        return CategoryDB.getAllCategories();
     }
 }

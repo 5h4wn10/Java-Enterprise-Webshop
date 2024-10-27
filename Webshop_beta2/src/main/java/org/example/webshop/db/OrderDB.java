@@ -9,40 +9,70 @@ import java.util.List;
 
 public class OrderDB {
 
-        // Metod för att spara en order i databasen
-        public static void saveOrder(Order order, Connection con) throws SQLException {
-            String query = "INSERT INTO orders (user_id, total_price) VALUES (?, ?)"; // Se till att kolumnen 'total_price' finns
+    // Metod för att spara en order i databasen
+    public static void saveOrder(Order order) throws SQLException {
+        Connection con = null;
+        try {
+            con = DBManager.getConnection();
+            con.setAutoCommit(false); // Stäng av autocommit för att hantera transaktionen manuellt
+
+            // Lägg till ordern i orders-tabellen
+            String query = "INSERT INTO orders (user_id, total_price) VALUES (?, ?)";
             PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, order.getUserId());
-            ps.setInt(2, order.getTotalPrice()); // Kontrollera att du faktiskt vill lagra totalpriset
+            ps.setInt(2, order.getTotalPrice()); // Beräkna totalpris
 
             ps.executeUpdate();
 
-            // Get generated order ID
+            // Få det genererade order-id:t
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                order.setOrderId(rs.getInt(1));  // Set the generated orderId
+                order.setOrderId(rs.getInt(1));  // Sätt det genererade order-id:t
             }
 
-            // Save each OrderItem
+            ps.close();
+
+            // Spara orderobjekten i order_items-tabellen
             for (OrderItem item : order.getItems()) {
                 saveOrderItem(con, order.getOrderId(), item);
             }
 
-            ps.close();
-        }
+            // Uppdatera lagersaldot för alla objekt i ordern
+            updateStockAfterOrder(con, order.getItems());
 
-        // Spara ett enskilt OrderItem i order_items-tabellen
-        private static void saveOrderItem(Connection con, int orderId, OrderItem item) throws SQLException {
-            String query = "INSERT INTO order_items (order_id, item_id, quantity, price) VALUES (?, ?, ?, ?)";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, orderId);
-            ps.setInt(2, item.getId());
-            ps.setInt(3, item.getOrderedQuantity());
-            ps.setInt(4, item.getPrice());
-            ps.executeUpdate();
-            ps.close();
+            con.commit(); // Commit transaktionen
+
+        } catch (SQLException e) {
+            if (con != null) {
+                con.rollback(); // Rulla tillbaka om något går fel
+            }
+            throw e;
+        } finally {
+            if (con != null) {
+                con.setAutoCommit(true); // Återställ autocommit
+                con.close();
+            }
         }
+    }
+
+    // Metod för att spara varje OrderItem
+    private static void saveOrderItem(Connection con, int orderId, OrderItem item) throws SQLException {
+        String query = "INSERT INTO order_items (order_id, item_id, quantity, price) VALUES (?, ?, ?, ?)";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, orderId);
+        ps.setInt(2, item.getId());
+        ps.setInt(3, item.getOrderedQuantity());
+        ps.setInt(4, item.getPrice());
+        ps.executeUpdate();
+        ps.close();
+    }
+
+    // Metod för att uppdatera lagersaldot efter att en order sparats
+    private static void updateStockAfterOrder(Connection con, List<OrderItem> items) throws SQLException {
+        for (OrderItem item : items) {
+            ItemDB.updateStockQuantity(item.getId(), item.getOrderedQuantity(), con);
+        }
+    }
 
 
 
@@ -110,7 +140,7 @@ public class OrderDB {
                 int totalPrice = rs.getInt("total_price");
 
                 // Skapa en Order och lägg till i listan
-                Order order = new Order(orderId, userId, orderDate, new ArrayList<>());
+                Order order = new Order(orderId, userId, orderDate, new ArrayList<>(), totalPrice);
                 orders.add(order);
             }
 
