@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.webshop.bo.ItemHandler;
-import org.example.webshop.ui.ItemInfoDTO;
+import org.example.webshop.ui.DTOs.ItemInfoDTO;
 
 import java.io.IOException;
 import java.sql.SQLException;

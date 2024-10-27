@@ -1,5 +1,5 @@
-<%@ page import="org.example.webshop.ui.OrderDTO" %>
-<%@ page import="org.example.webshop.ui.OrderItemDTO" %>
+<%@ page import="org.example.webshop.ui.DTOs.OrderDTO" %>
+<%@ page import="org.example.webshop.ui.DTOs.OrderItemDTO" %>
 <%@ page import="java.util.List" %>
 
 <%
@@ -171,7 +171,7 @@
 </div>
 
 <div class="footer">
-    <p>&copy; 2024 Webshop Admin Panel. All Rights Reserved.</p>
+    <p>&copy; Webshop för admin och lagerpersonal</p>
 </div>
 
 </body>

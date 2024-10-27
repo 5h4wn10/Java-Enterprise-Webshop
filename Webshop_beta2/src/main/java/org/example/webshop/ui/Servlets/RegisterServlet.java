@@ -2,7 +2,7 @@ package org.example.webshop.ui.Servlets;
 
 import jakarta.servlet.annotation.WebServlet;
 import org.example.webshop.bo.UserHandler;
-import org.example.webshop.ui.UserInfoDTO;
+import org.example.webshop.ui.DTOs.UserInfoDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

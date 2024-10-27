@@ -1,4 +1,4 @@
-    package org.example.webshop.ui;
+    package org.example.webshop.ui.DTOs;
 
     import java.util.List;
 

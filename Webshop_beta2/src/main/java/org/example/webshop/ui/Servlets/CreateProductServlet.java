@@ -19,7 +19,6 @@ public class CreateProductServlet extends HttpServlet {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
         try {
-            // Lägg till produkten via ItemHandler
             ItemHandler.createProduct(productName, price, description, categoryId);
             response.sendRedirect("admin.jsp");
         } catch (SQLException e) {

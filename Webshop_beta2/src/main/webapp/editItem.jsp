@@ -1,4 +1,4 @@
-<%@ page import="org.example.webshop.ui.ItemInfoDTO" %><%
+<%@ page import="org.example.webshop.ui.DTOs.ItemInfoDTO" %><%
     ItemInfoDTO item = (ItemInfoDTO) request.getAttribute("item");
     String errorMessage = (String) request.getAttribute("errorMessage");
 

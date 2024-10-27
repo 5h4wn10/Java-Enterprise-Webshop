@@ -1,7 +1,6 @@
 package org.example.webshop.bo;
 
-import org.example.webshop.bo.Item;
-import org.example.webshop.ui.ItemInfoDTO;
+import org.example.webshop.ui.DTOs.ItemInfoDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,14 +58,10 @@ public class ItemHandler {
         Item.updateItem(id, name, description, price, stock);
     }
 
-    public static void deleteItem(int itemId) throws SQLException {
-        Item.deleteItem(itemId);
-    }
 
-    // Metod för att skapa en produkt för adminer
     public static void createProduct(String name, int price, String description, int categoryId) throws SQLException {
-        Item newItem = new Item(name, price, description, categoryId);
-        newItem.save();  // Delegerar till Item-klassen att spara produkten
+        Item item = new Item(name, price, description, categoryId);
+        item.save();
     }
 
 }

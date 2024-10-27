@@ -1,7 +1,5 @@
 package org.example.webshop.bo;
 
-import org.example.webshop.ui.ItemInfoDTO;
-
 public class OrderItem extends Item {
     private int orderedQuantity;
 

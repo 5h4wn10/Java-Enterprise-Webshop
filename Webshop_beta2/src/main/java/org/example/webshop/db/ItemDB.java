@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.Collection;
 import java.util.Vector;
 import org.example.webshop.bo.Item;
-import org.example.webshop.ui.ItemInfoDTO;
 
 public class ItemDB extends Item {
 
@@ -119,7 +118,7 @@ public class ItemDB extends Item {
         Connection con = null;
         try {
             con = DBManager.getConnection();
-            con.setAutoCommit(false);  // Avstängd auto-commit
+            con.setAutoCommit(false);
 
             String query = "UPDATE item SET name = ?, description = ?, price = ?, stock_quantity = ? WHERE item_id = ?";
             PreparedStatement ps = con.prepareStatement(query);
@@ -147,33 +146,40 @@ public class ItemDB extends Item {
         }
     }
 
-    public static void deleteItem(int itemId) throws SQLException {
-        String query = "DELETE FROM item WHERE item_id = ?";
 
-        try (Connection con = DBManager.getConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, itemId);
-            int rowsAffected = ps.executeUpdate();
-            System.out.println("Item deleted, rows affected: " + rowsAffected);
-        }
-    }
-
-
-    // Metod för att spara en produkt i databasen
-    public static void saveItem(Item item) throws SQLException {
+    public static void createProduct(Item item) throws SQLException {
         Connection con = DBManager.getConnection();
         try {
-            String query = "INSERT INTO products (name, price, description, category_id) VALUES (?, ?, ?, ?)";
+            con.setAutoCommit(false);
+
+            // Skapa SQL-frågan för att lägga till produkten
+            String query = "INSERT INTO item (name, price, description, item_group_id, stock_quantity) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, item.getName());
             ps.setInt(2, item.getPrice());
             ps.setString(3, item.getDescription());
             ps.setInt(4, item.getCategoryId());
+            ps.setInt(5, 0);  // Sätt stock_quantity till 0 vid skapandet
+
             ps.executeUpdate();
+            con.commit();
+
+        } catch (SQLException e) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+            }
+            throw e;
         } finally {
-            con.close();
+            // Återställ autocommit och stäng anslutningen
+            if (con != null) {
+                con.setAutoCommit(true);
+                con.close();
+            }
         }
     }
-
 
 }

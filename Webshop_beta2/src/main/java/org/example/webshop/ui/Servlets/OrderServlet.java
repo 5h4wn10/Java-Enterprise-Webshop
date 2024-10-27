@@ -3,8 +3,8 @@ package org.example.webshop.ui.Servlets;
 import org.example.webshop.bo.Order;
 import org.example.webshop.bo.OrderHandler;
 import org.example.webshop.bo.OrderItem;
-import org.example.webshop.ui.OrderItemDTO;
-import org.example.webshop.ui.UserInfoDTO;
+import org.example.webshop.ui.DTOs.OrderItemDTO;
+import org.example.webshop.ui.DTOs.UserInfoDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

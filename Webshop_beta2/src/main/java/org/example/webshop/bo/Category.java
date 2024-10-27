@@ -34,18 +34,12 @@ public class Category {
 
     // Metod för att skapa en kategori (anropar CategoryDB)
     public static void createCategory(String name) throws SQLException {
-        Category newCategory = new Category(0, name);
-        CategoryDB.saveCategory(newCategory);
+        CategoryDB.createCategory(name);
     }
 
     // Metod för att uppdatera en kategori (anropar CategoryDB)
     public static void editCategory(int categoryId, String newName) throws SQLException {
-        CategoryDB.updateCategory(categoryId, newName);
-    }
-
-    // Metod för att ta bort en kategori (anropar CategoryDB)
-    public static void deleteCategory(int categoryId) throws SQLException {
-        CategoryDB.deleteCategory(categoryId);
+        CategoryDB.editCategory(categoryId, newName);
     }
 
     // Metod för att hämta alla kategorier (anropar CategoryDB)

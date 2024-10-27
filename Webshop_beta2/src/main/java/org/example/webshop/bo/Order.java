@@ -1,9 +1,7 @@
 package org.example.webshop.bo;
 
-import org.example.webshop.db.DBManager;
 import org.example.webshop.db.OrderDB;
 import org.example.webshop.db.ItemDB;
-import org.example.webshop.ui.OrderDTO;
 
 import java.sql.Connection;
 import java.sql.SQLException;

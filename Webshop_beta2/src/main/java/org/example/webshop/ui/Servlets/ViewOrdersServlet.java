@@ -8,16 +8,28 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.webshop.bo.Order;
 import org.example.webshop.bo.OrderHandler;
 import org.example.webshop.bo.OrderItem;
-import org.example.webshop.ui.OrderDTO;
-import org.example.webshop.ui.OrderItemDTO;
+import org.example.webshop.ui.DTOs.OrderDTO;
+import org.example.webshop.ui.DTOs.OrderItemDTO;
+import org.example.webshop.ui.DTOs.UserInfoDTO;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 @WebServlet("/viewOrdersServlet")
 public class ViewOrdersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Kontrollera om användaren är inloggad och om de har rätt roll
+        UserInfoDTO user = (UserInfoDTO) request.getSession().getAttribute("user");
+
+
+        if (user.getRoleId() != 3) {
+            // Omdirigera till accessDenied.jsp om användaren inte har rätt roll dvs man måste vara lagerpersonal för att kunna kolla på alla orders
+            response.sendRedirect("accessDenied.jsp");
+            return;
+        }
+
         try {
             // Hämta alla ordrar med status "Pending"
             List<Order> pendingOrders = OrderHandler.getPendingOrders();
@@ -37,10 +49,8 @@ public class ViewOrdersServlet extends HttpServlet {
                 orderDTOs.add(new OrderDTO(order.getOrderId(), order.getUserId(), orderItemsDTO, order.getTotalpriceGeneral(), order.getOrderDate()));
             }
 
-            // Debug: Skriv ut antal DTOs som skapades
             System.out.println("Antal konverterade DTOs: " + orderDTOs.size());
 
-            // Lägg till DTOs i request attributet
             request.setAttribute("pendingOrders", orderDTOs);
             request.getRequestDispatcher("viewOrders.jsp").forward(request, response);
 

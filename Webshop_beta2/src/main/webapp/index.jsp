@@ -1,7 +1,7 @@
-<%@page import="org.example.webshop.ui.ItemInfoDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.ItemInfoDTO"%>
 <%@page import="org.example.webshop.bo.ItemHandler"%>
 <%@page import="java.util.List"%>
-<%@page import="org.example.webshop.ui.UserInfoDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.UserInfoDTO"%>
 <%@page session="true" %>
 
 <%

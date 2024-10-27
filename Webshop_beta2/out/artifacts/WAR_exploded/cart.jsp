@@ -1,10 +1,10 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="org.example.webshop.bo.OrderItem"%>
-<%@page import="org.example.webshop.ui.OrderItemDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.OrderItemDTO"%>
 <%@page import="java.util.List"%>
-<%@page import="org.example.webshop.ui.ShoppingCartDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.ShoppingCartDTO"%>
 <%@page import="java.util.Map"%>
-<%@page import="org.example.webshop.ui.UserInfoDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.UserInfoDTO"%>
 <html>
 <head>
     <title>Your Shopping Cart</title>

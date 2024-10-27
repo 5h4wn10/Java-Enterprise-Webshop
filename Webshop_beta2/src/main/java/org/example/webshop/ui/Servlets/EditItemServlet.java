@@ -2,7 +2,7 @@ package org.example.webshop.ui.Servlets;
 
 import org.example.webshop.bo.Item;
 import org.example.webshop.bo.ItemHandler;
-import org.example.webshop.ui.ItemInfoDTO;
+import org.example.webshop.ui.DTOs.ItemInfoDTO;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

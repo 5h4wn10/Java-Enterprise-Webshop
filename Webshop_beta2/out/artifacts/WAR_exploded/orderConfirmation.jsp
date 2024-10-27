@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.webshop.ui.OrderItemDTO" %>
+<%@ page import="org.example.webshop.ui.DTOs.OrderItemDTO" %>
 
 <html>
 <head>

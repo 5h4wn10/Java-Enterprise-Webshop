@@ -108,13 +108,9 @@ public class Item {
         ItemDB.updateItem(id, name, description, price, stockQuantity);
     }
 
-    public static void deleteItem(int itemId) throws SQLException {
-        ItemDB.deleteItem(itemId);
-    }
-
-
-    // Metod för att spara en produkt (delegerar till ItemDB)
+    // Spara produkten i databasen genom att anropa ItemDB
     public void save() throws SQLException {
-        ItemDB.saveItem(this);
+        // Kalla på ItemDB:s metod för att spara produkten
+        ItemDB.createProduct(this);
     }
 }

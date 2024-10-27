@@ -12,13 +12,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.example.webshop.db.DBManager;
-import org.example.webshop.ui.OrderItemDTO;
-import org.example.webshop.ui.ShoppingCartDTO;
-import org.example.webshop.ui.UserInfoDTO;
+import org.example.webshop.ui.DTOs.OrderItemDTO;
+import org.example.webshop.ui.DTOs.ShoppingCartDTO;
+import org.example.webshop.ui.DTOs.UserInfoDTO;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;

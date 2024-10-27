@@ -1,7 +1,7 @@
-<%@page import="org.example.webshop.ui.ItemInfoDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.ItemInfoDTO"%>
 <%@page import="org.example.webshop.bo.ItemHandler"%>
 <%@page import="java.util.List"%>
-<%@page import="org.example.webshop.ui.UserInfoDTO"%>
+<%@page import="org.example.webshop.ui.DTOs.UserInfoDTO"%>
 <%@page session="true" %>
 
 <%
@@ -156,7 +156,7 @@
 <body>
 
 <div class="header">
-    <h1>Welcome, Admin <%= user.getUsername() %>!</h1>
+    <h1>Welcome, <%= user.getUsername() %>!</h1>
     <p>This is your Admin Dashboard.</p>
     <a href="login.jsp">Log out</a>
 </div>
@@ -165,7 +165,7 @@
     <h1>Manage Products</h1>
 
     <div class="admin-actions">
-        <a href="createProductServlet">Add New Product</a>
+        <a href="addProduct.jsp">Add New Product</a>
         <a href="viewCategoriesServlet">Manage Categories</a>
         <a href="viewOrdersServlet">View Orders</a>
     </div>
@@ -192,7 +192,6 @@
             <td>
                 <!-- Buttons for admin actions -->
                 <a class="btn" href="editItem?itemId=<%= item.getId() %>">Edit</a>
-                <a class="btn" href="deleteProductServlet?itemId=<%= item.getId() %>">Delete</a>
             </td>
         </tr>
         <%
@@ -203,7 +202,7 @@
 </div>
 
 <div class="footer">
-    <p>&copy; 2024 Webshop Admin Panel. All Rights Reserved.</p>
+    <p>&copy; Webshop för admin och lagerpersonal</p>
 </div>
 
 </body>
