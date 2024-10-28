@@ -1,4 +1,5 @@
-<%@ page import="org.example.webshop.ui.DTOs.ItemInfoDTO" %><%
+<%@ page import="org.example.webshop.ui.DTOs.ItemInfoDTO" %>
+<%
     ItemInfoDTO item = (ItemInfoDTO) request.getAttribute("item");
     String errorMessage = (String) request.getAttribute("errorMessage");
 
@@ -9,7 +10,8 @@
 } else if (item != null) {
 %>
 <h1>Edit Item: <%= item.getName() %></h1>
-<form action="updateItemServlet" method="post">
+<form action="itemServlet" method="post">
+    <input type="hidden" name="action" value="update">
     <input type="hidden" name="itemId" value="<%= item.getId() %>">
     <label>Name: </label><input type="text" name="name" value="<%= item.getName() %>"><br>
     <label>Description: </label><input type="text" name="description" value="<%= item.getDescription() %>"><br>

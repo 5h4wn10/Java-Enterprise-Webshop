@@ -85,7 +85,8 @@
 <div class="container">
     <h1>Register New Account</h1>
 
-    <form action="registerServlet" method="post">
+    <form action="userServlet" method="post">
+        <input type="hidden" name="action" value="register">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
 

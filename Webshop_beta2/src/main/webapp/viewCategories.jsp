@@ -44,20 +44,18 @@
             background-color: #0056b3;
         }
     </style>
-    <head>
-        <title>Categories</title>
-    </head>
-    <body>
-    <h1>Categories</h1>
-    <ul>
-        <% for (CategoryDTO category : categories) { %>
-        <li>
-            <%= category.getName() %>
-            <a href="editCategory.jsp?categoryId=<%= category.getCategoryId() %>&categoryName=<%= category.getName() %>">Edit</a>
-        </li>
-        <% } %>
-    </ul>
+</head>
+<body>
+<h1>Categories</h1>
+<ul>
+    <% for (CategoryDTO category : categories) { %>
+    <li>
+        <%= category.getName() %>
+        <a href="editCategory.jsp?categoryId=<%= category.getCategoryId() %>&categoryName=<%= category.getName() %>">Edit</a>
+    </li>
+    <% } %>
+</ul>
 
-    <a href="admin.jsp">Back to admin page</a> <a href="addCategory.jsp">Add New Category</a>
+<a href="admin.jsp">Back to admin page</a> <a href="addCategory.jsp">Add New Category</a>
 </body>
 </html>

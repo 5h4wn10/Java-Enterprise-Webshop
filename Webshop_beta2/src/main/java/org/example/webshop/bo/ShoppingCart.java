@@ -37,6 +37,18 @@ public class ShoppingCart {
         return total;
     }
 
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public void clear() {
         items.clear();
     }

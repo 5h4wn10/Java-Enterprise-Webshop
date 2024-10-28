@@ -6,7 +6,8 @@
 <body>
 <h1>Edit Category</h1>
 
-<form action="editCategoryServlet" method="post">
+<form action="categoryServlet" method="post">
+    <input type="hidden" name="action" value="editCategory">
     <input type="hidden" name="categoryId" value="<%= request.getParameter("categoryId") %>">
     <label for="categoryName">New Category Name:</label>
     <input type="text" name="categoryName" value="<%= request.getParameter("categoryName") %>" required><br><br>

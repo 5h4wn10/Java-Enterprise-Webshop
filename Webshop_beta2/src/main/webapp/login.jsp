@@ -99,7 +99,8 @@
         }
     %>
 
-    <form action="loginServlet" method="post">
+    <form action="userServlet" method="post">
+        <input type="hidden" name="action" value="login">
         <label for="username">USERNAME:</label>
         <input type="text" id="username" name="username" value="lager" required><br><br> <!-- Autofyll med användarnamn -->
 
@@ -108,6 +109,7 @@
 
         <input type="submit" value="Login">
     </form>
+
 
     <form action="register.jsp" method="get">
         <input type="submit" class="register-btn" value="Register New Account">

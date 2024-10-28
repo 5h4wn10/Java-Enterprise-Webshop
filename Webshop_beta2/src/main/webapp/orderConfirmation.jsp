@@ -84,44 +84,41 @@
         </tr>
 
         <%
-            // Hämta orderItems från request-attributen
             List<OrderItemDTO> orderItems = (List<OrderItemDTO>) request.getAttribute("orderItems");
             int totalPrice = 0;
-            if (orderItems == null) {
-                // Hantera fallet där orderItems är null
-                System.out.println("<p>Order could not be processed. Please try again.</p>");
-            } else {
-                totalPrice = 0;
+            if (orderItems != null) {
                 for (OrderItemDTO item : orderItems) {
                     int itemTotalPrice = item.calculateTotalPrice();
                     totalPrice += itemTotalPrice;
         %>
         <tr>
-            <td><%=item.getName()%></td>
-            <td>$<%=item.getPrice()%></td>
-            <td><%=item.getOrderedQuantity()%></td>
-            <td>$<%=itemTotalPrice%></td>
+            <td><%= item.getName() %></td>
+            <td>$<%= item.getPrice() %></td>
+            <td><%= item.getOrderedQuantity() %></td>
+            <td>$<%= itemTotalPrice %></td>
         </tr>
         <%
             }
         %>
         <tr>
             <td colspan="3" class="total-price">Total Price</td>
-            <td class="total-price">$<%=totalPrice%></td>
+            <td class="total-price">$<%= totalPrice %></td>
         </tr>
+        <%
+        } else {
+        %>
+        <p>Order could not be processed. Please try again.</p>
         <%
             }
         %>
     </table>
 
     <div class="buttons">
-        <!-- Knapp för att fortsätta shoppa -->
         <a href="index.jsp" class="btn btn-primary">Continue Shopping</a>
     </div>
 
     <div class="buttons">
-        <!-- Knapp för att logga ut -->
-        <a href="logoutServlet" class="btn btn-secondary">Log out</a>
+        <a href="userServlet?action=logout" class="btn btn-secondary">Log out</a>
     </div>
 </div>
 </body>

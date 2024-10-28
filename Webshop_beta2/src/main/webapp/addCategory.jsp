@@ -6,7 +6,8 @@
 <body>
 <h1>Add New Category</h1>
 
-<form action="createCategoryServlet" method="post">
+<form action="categoryServlet" method="post">
+    <input type="hidden" name="action" value="createCategory">
     <label for="categoryName">Category Name:</label>
     <input type="text" name="categoryName" id="categoryName" required><br><br>
 

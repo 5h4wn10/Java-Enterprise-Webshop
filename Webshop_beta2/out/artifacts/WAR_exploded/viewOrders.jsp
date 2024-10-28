@@ -154,7 +154,8 @@
                 </ul>
             </td>
             <td>
-                <form action="packOrderServlet" method="post">
+                <form action="orderServlet" method="post">
+                    <input type="hidden" name="action" value="packOrder">
                     <input type="hidden" name="orderId" value="<%= order.getOrderId() %>">
                     <input type="submit" class="btn" value="Mark as Packed">
                 </form>

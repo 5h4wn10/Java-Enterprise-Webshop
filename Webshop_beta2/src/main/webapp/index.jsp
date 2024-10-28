@@ -5,16 +5,13 @@
 <%@page session="true" %>
 
 <%
-    // Kontrollera om användaren är inloggad
     UserInfoDTO user = (UserInfoDTO) session.getAttribute("user");
     if (user == null) {
-        // Om användaren inte är inloggad, omdirigera till login-sidan
         response.sendRedirect("login.jsp");
         return;
     }
 
-    // Hämta alla produkter från ItemHandler
-    List<ItemInfoDTO> items = ItemHandler.getAllItems(); // Antag att du har en ItemHandler med getAllItems()
+    List<ItemInfoDTO> items = ItemHandler.getAllItems();
 %>
 <html>
 <head>
@@ -134,7 +131,6 @@
 
 <div class="header">
     <h1>Welcome, <%= user.getUsername() %>!</h1>
-    <p>This is your webshop homepage.</p>
     <a href="login.jsp">Log out</a>
 </div>
 
@@ -160,20 +156,15 @@
             <td><%= item.getDescription() %></td>
             <td><%= item.getGroup() %></td>
             <td>
-                <!-- Visa om produkten finns i lager eller inte -->
                 <%= item.getStock_quantity() > 0 ? " in stock" : "Out of stock" %>
             </td>
             <td>
-                <!-- Formulär för att lägga till item i kundkorgen -->
-                <form action="shoppingServlet" method="post">
+                <form action="cartServlet" method="post">
+                    <input type="hidden" name="action" value="add">
                     <input type="hidden" name="itemId" value="<%= item.getId() %>">
-                    <input type="hidden" name="itemName" value="<%= item.getName() %>">
-                    <input type="hidden" name="itemPrice" value="<%= item.getPrice() %>">
-                    <input type="hidden" name="itemGroup" value="<%= item.getGroup() %>">
                     <input type="number" name="quantity" value="1" min="1" max="<%= item.getStock_quantity() %>">
                     <button class="add-to-cart" type="submit" <%= item.getStock_quantity() <= 0 ? "disabled" : "" %>>Add to Cart</button>
                 </form>
-
             </td>
         </tr>
         <%
@@ -181,10 +172,7 @@
         %>
     </table>
 
-    <!-- Länk för att visa kundkorgen -->
     <a class="view-cart" href="cart.jsp">View Cart</a>
 </div>
-
-
 </body>
 </html>

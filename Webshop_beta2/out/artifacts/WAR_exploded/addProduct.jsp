@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="org.example.webshop.bo.Category" %>
 <%@ page import="org.example.webshop.bo.CategoryHandler" %>
+<%@ page import="org.example.webshop.bo.Category" %>
 <html>
 <head>
     <title>Add New Product</title>
@@ -8,7 +8,8 @@
 <body>
 <h1>Add New Product</h1>
 
-<form action="createProductServlet" method="post">
+<form action="itemServlet" method="post">
+    <input type="hidden" name="action" value="createProduct">
     <label for="productName">Product Name:</label>
     <input type="text" name="productName" id="productName" required><br><br>
 
